@@ -1,0 +1,8 @@
+############### Database ###############
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: kotlin-post-service
+########################################
