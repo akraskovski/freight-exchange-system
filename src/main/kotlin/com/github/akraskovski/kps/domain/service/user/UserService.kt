@@ -10,7 +10,7 @@ interface UserService : CommonService<User, String> {
 
     /**
      * Finds User by a given email.
-     * Doesn't throw any not found exception.
+     * Throws exception if user was not found.
      */
-    fun findByEmail(email: String): User?
+    fun findByEmail(email: String): User
 }

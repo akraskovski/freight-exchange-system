@@ -2,9 +2,9 @@ package com.github.akraskovski.kps.domain.service.user
 
 import com.github.akraskovski.kps.domain.model.User
 import com.github.akraskovski.kps.domain.repository.UserRepository
+import com.github.akraskovski.kps.domain.service.exception.EntityNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.*
 
 /**
  * Basic implementation of the UserService.
@@ -14,9 +14,9 @@ class BasicUserService @Autowired constructor(val userRepository: UserRepository
 
     override fun create(obj: User): User = userRepository.insert(obj)
 
-    override fun findById(id: String): Optional<User> = userRepository.findById(id)
+    override fun findById(id: String): User = userRepository.findById(id).orElseThrow { EntityNotFoundException() }
 
-    override fun findByEmail(email: String): User? = userRepository.findByEmail(email)
+    override fun findByEmail(email: String): User = userRepository.findByEmail(email) ?: throw EntityNotFoundException()
 
     override fun findAll(): List<User> = userRepository.findAll()
 

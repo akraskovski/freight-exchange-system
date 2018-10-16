@@ -30,10 +30,14 @@ class UserController @Autowired constructor(private val userService: UserService
      */
     @GetMapping("/{id}")
     fun findById(@PathVariable id: String): ResponseEntity<UserDetails> =
-            userService.findById(id)
-                    .map(::fromUser)
-                    .map { ResponseEntity.ok(it) }
-                    .orElse(ResponseEntity.notFound().build())
+            ResponseEntity.ok(fromUser(userService.findById(id)))
 
+    /**
+     * Finds an User by a given id.
+     * Return UserDetails if user was found otherwise 404 response status.
+     */
+    @GetMapping()
+    fun findByEmail(@RequestParam email: String): ResponseEntity<UserDetails> =
+            ResponseEntity.ok(fromUser(userService.findByEmail(email)))
 }
 
