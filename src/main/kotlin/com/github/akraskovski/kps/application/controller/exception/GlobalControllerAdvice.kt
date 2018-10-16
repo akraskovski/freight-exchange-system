@@ -19,7 +19,7 @@ class GlobalControllerAdvice {
      * Handle Errors during authentication
      */
     @ExceptionHandler(EntityNotFoundException::class)
-    fun handleBadCredentialsException(e: EntityNotFoundException): ResponseEntity<Nothing> {
+    fun handleEntityNotFoundException(e: EntityNotFoundException): ResponseEntity<Nothing> {
         log.warn(e.message, e)
         return ResponseEntity.notFound().build()
     }

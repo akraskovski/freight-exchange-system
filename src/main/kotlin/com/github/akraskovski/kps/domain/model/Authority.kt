@@ -5,6 +5,7 @@ package com.github.akraskovski.kps.domain.model
  */
 enum class Authority {
     ROLE_ADMIN,
-    ROLE_AUTHOR,
-    ROLE_WRITER
+    ROLE_CLIENT,
+    ROLE_COURIER,
+    ROLE_BROKER
 }

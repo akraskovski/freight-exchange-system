@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 @Service
 class BasicUserService @Autowired constructor(val userRepository: UserRepository) : UserService {
 
-    override fun create(obj: User): User = userRepository.insert(obj)
+    override fun register(obj: User): User = userRepository.insert(obj)
 
     override fun findById(id: String): User = userRepository.findById(id).orElseThrow { EntityNotFoundException() }
 

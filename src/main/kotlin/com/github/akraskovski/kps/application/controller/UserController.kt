@@ -9,6 +9,7 @@ import com.github.akraskovski.kps.domain.service.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 /**
  * API endpoint for the users operations.
@@ -20,9 +21,9 @@ class UserController @Autowired constructor(private val userService: UserService
     /**
      * Registering a new user account.
      */
-    @PostMapping("sign-up")
-    fun signUp(@RequestBody signUpUser: SignUpUser): ResponseEntity<IdDto> =
-            ResponseEntity.ok(IdDto(userService.create(signUpUser.toUser()).id!!))
+    @PostMapping("/sign-up")
+    fun signUp(@RequestBody @Valid signUpUser: SignUpUser): ResponseEntity<IdDto> =
+            ResponseEntity.ok(IdDto(userService.register(signUpUser.toUser()).id!!))
 
     /**
      * Finds an User by a given id.
@@ -36,7 +37,7 @@ class UserController @Autowired constructor(private val userService: UserService
      * Finds an User by a given id.
      * Return UserDetails if user was found otherwise 404 response status.
      */
-    @GetMapping()
+    @GetMapping
     fun findByEmail(@RequestParam email: String): ResponseEntity<UserDetails> =
             ResponseEntity.ok(fromUser(userService.findByEmail(email)))
 }

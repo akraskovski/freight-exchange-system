@@ -7,7 +7,12 @@ import org.springframework.data.mongodb.core.mapping.Document
  */
 @Document
 class User(
-        id: String?,
+        id: String? = null,
+        var firstname: String,
+        var lastname: String,
+        var age: Byte?,
+        var phone: String?,
+        var gender: Gender = Gender.UNKNOWN,
         var email: String,
         var password: String,
-        var authorities: Set<Authority>) : AbstractEntity(id)
+        var authority: Authority) : AbstractEntity(id)
