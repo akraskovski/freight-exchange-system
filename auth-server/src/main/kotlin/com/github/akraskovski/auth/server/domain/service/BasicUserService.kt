@@ -1,7 +1,9 @@
 package com.github.akraskovski.auth.server.domain.service;
 
+import com.github.akraskovski.auth.server.domain.model.Authority
 import com.github.akraskovski.auth.server.domain.model.User
 import com.github.akraskovski.auth.server.domain.repository.UserRepository
+import com.github.akraskovski.auth.server.domain.service.exception.PermissionDeniedException
 import com.github.akraskovski.auth.server.domain.service.exception.UserAlreadyExistsException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -14,9 +16,14 @@ import org.springframework.stereotype.Service
 class BasicUserService @Autowired constructor(val userRepository: UserRepository, val passwordEncoder: PasswordEncoder) : UserService {
 
     override infix fun signUp(user: User): User {
+        if (user.authority == Authority.ROLE_ADMIN) {
+            throw PermissionDeniedException("You cannot register user with this role")
+        }
+
         findByEmail(user.email!!) ?: throw UserAlreadyExistsException(user.email!!)
 
         user.password = passwordEncoder.encode(user.password)
+
         return userRepository.save(user)
     }
 

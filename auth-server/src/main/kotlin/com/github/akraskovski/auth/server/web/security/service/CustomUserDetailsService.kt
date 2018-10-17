@@ -20,9 +20,9 @@ class CustomUserDetailsService @Autowired constructor(val userService: UserServi
         val user = userService.findByEmail(email!!)
                 ?: throw UsernameNotFoundException("Cannot find user with email: $email")
 
-        return org.springframework.security.core.userdetails.User(user.email, user.password, convertAuthority(user.authority!!))
+        return org.springframework.security.core.userdetails.User(user.email, user.password, this convertAuthority user.authority!!)
     }
 
-    private fun convertAuthority(userAuthority: Authority) =
+    private infix fun convertAuthority(userAuthority: Authority) =
             Collections.singletonList(SimpleGrantedAuthority(userAuthority.name))
 }

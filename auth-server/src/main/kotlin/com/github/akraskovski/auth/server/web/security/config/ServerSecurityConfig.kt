@@ -30,6 +30,6 @@ class ServerSecurityConfig @Autowired constructor(val customUserDetailsService: 
                 .userDetailsService(customUserDetailsService)
                 .httpBasic()
                 .and()
-                .csrf().disable();
+                .csrf().disable()
     }
 }
