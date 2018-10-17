@@ -7,8 +7,8 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/fes-auth-server
-    username: postgres
-    password: root
+    username: ${db_user}
+    password: ${db_pass}
 
   jpa:
     show-sql: true
