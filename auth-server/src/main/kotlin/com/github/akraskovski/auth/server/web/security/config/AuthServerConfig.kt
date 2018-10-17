@@ -17,7 +17,7 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
 import javax.sql.DataSource
 
 const val RESOURCE_ID: String = "fes_api"
-const val CLIENT_ID: String = "postman-testing-client"
+const val CLIENT_ID: String = "fes-client"
 const val CLIENT_SECRET: String = "aH{G_{])6y[j8apFzqaRJ-BbwpAb{c?/4P-xC[,2yN<m94Y9"
 
 val CLIENT_SCOPES: Array<String> = arrayOf("read", "write")

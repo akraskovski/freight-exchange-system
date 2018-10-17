@@ -1,13 +1,17 @@
 package com.github.akraskovski.fes.application.dto
 
-import com.github.akraskovski.fes.domain.model.Authority
-import com.github.akraskovski.fes.domain.model.Gender
+import com.github.akraskovski.fes.domain.model.common.Gender
 import javax.validation.constraints.*
 
 /**
  * Dto for the user sign up properties.
  */
+//TODO: add contacts dto
 class SignUpUser(
+
+        @NotBlank
+        var id: String,
+
         @NotBlank
         var firstname: String,
 
@@ -23,11 +27,4 @@ class SignUpUser(
         var gender: Gender?,
 
         @Email
-        var email: String,
-
-        @NotBlank
-        @Size(min = 8)
-        var password: String,
-
-        @NotNull
-        var authority: Authority)
+        var email: String)

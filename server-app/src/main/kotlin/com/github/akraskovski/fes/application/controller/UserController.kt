@@ -15,15 +15,15 @@ import javax.validation.Valid
  * API endpoint for the users operations.
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/fes/v1/user")
 class UserController @Autowired constructor(private val userService: UserService) {
 
     /**
      * Registering a new user account.
      */
-    @PostMapping("/sign-up")
+    @PostMapping("/account/register")
     fun signUp(@RequestBody @Valid signUpUser: SignUpUser): ResponseEntity<IdDto> =
-            ResponseEntity.ok(IdDto(userService.register(signUpUser.toUser()).id!!))
+            ResponseEntity.ok(IdDto(userService.register(signUpUser.toUser()!!).id!!))
 
     /**
      * Finds an User by a given id.

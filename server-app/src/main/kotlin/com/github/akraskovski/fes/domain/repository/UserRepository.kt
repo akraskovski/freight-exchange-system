@@ -1,14 +1,14 @@
 package com.github.akraskovski.fes.domain.repository
 
 import com.github.akraskovski.fes.domain.model.User
-import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 /**
  * Users DAO.
  */
 @Repository
-interface UserRepository : MongoRepository<User, String> {
+interface UserRepository : JpaRepository<User, String> {
 
     /**
      * Find user by a given email in database.

@@ -1,18 +1,22 @@
 package com.github.akraskovski.fes.domain.model
 
-import org.springframework.data.mongodb.core.mapping.Document
+import com.github.akraskovski.fes.domain.model.common.AbstractEntity
+import com.github.akraskovski.fes.domain.model.common.Gender
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.OneToOne
 
 /**
  * Domain User model.
  */
-@Document
+@Entity(name = "user_details")
 class User(
         id: String? = null,
         var firstname: String,
         var lastname: String,
         var age: Byte?,
-        var phone: String?,
+        @Enumerated(value = EnumType.STRING)
         var gender: Gender = Gender.UNKNOWN,
-        var email: String,
-        var password: String,
-        var authority: Authority) : AbstractEntity(id)
+        @OneToOne
+        var contacts: UserContacts) : AbstractEntity(id)

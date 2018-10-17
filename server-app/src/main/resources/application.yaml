@@ -1,8 +1,30 @@
-############### Database ###############
+############## General ############################################
+server:
+  port: 8888
+resource:
+  id: fes_api
+###################################################################
+
+############## Resource-server database ###########################################
 spring:
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: kotlin-post-service
-########################################
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fes-database
+    username: ${db_user}
+    password: ${db_pass}
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob.non_contextual_creation: true
+###################################################################
+
+############## Auth-server connection ###########################################
+auth:
+  server:
+    connection:
+      url: http://localhost:7777/oauth/check_token
+      clientId: fes-client
+      clientSecret: aH{G_{])6y[j8apFzqaRJ-BbwpAb{c?/4P-xC[,2yN<m94Y9
+###################################################################

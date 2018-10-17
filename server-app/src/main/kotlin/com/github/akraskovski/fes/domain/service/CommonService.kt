@@ -1,6 +1,6 @@
 package com.github.akraskovski.fes.domain.service
 
-import com.github.akraskovski.fes.domain.model.AbstractEntity
+import com.github.akraskovski.fes.domain.model.common.AbstractEntity
 
 /**
  * Common CRUD service, showing work of generics in kotlin.

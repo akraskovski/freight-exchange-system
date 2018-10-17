@@ -7,8 +7,8 @@ import org.springframework.boot.runApplication
  * Bootstrap class.
  */
 @SpringBootApplication
-class KotlinPostServiceApplication
+class FreightExchangeSystemApplication
 
 fun main(args: Array<String>) {
-    runApplication<KotlinPostServiceApplication>(*args)
+    runApplication<FreightExchangeSystemApplication>(*args)
 }

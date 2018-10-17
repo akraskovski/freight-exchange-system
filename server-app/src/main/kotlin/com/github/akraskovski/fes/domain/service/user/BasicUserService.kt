@@ -10,19 +10,7 @@ import org.springframework.stereotype.Service
  * Basic implementation of the UserService.
  */
 @Service
-class BasicUserService @Autowired constructor(val userRepository: UserRepository) : UserService {
-
-    override fun register(obj: User): User = userRepository.insert(obj)
-
-    override fun findById(id: String): User = userRepository.findById(id).orElseThrow { EntityNotFoundException() }
+class BasicUserService @Autowired constructor(val userRepository: UserRepository) : UserService by BasicUserService(userRepository) {
 
     override fun findByEmail(email: String): User = userRepository.findByEmail(email) ?: throw EntityNotFoundException()
-
-    override fun findAll(): List<User> = userRepository.findAll()
-
-    override fun update(obj: User): User = userRepository.save(obj)
-
-    override fun delete(id: String) = userRepository.deleteById(id)
-
-    override fun delete(obj: User) = userRepository.delete(obj)
 }
