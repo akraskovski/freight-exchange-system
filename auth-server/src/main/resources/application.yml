@@ -6,7 +6,7 @@ server:
 ############## Database ###########################################
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/oauth2-auth-server
+    url: jdbc:postgresql://localhost:5432/fes-auth-server
     username: postgres
     password: root
 

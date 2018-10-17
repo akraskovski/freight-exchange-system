@@ -47,10 +47,7 @@ public class UserControllerIT {
 
         final String password = RandomStringUtils.randomAlphabetic(20);
 
-        final SignUpUser signUpUser = new SignUpUser();
-        signUpUser.setEmail(TEST_EMAIL);
-        signUpUser.setPassword(password);
-        signUpUser.setAuthorities(Collections.singleton(Authority.ROLE_USER));
+        final SignUpUser signUpUser = new SignUpUser(TEST_EMAIL, password, Authority.ROLE_CLIENT);
 
         final String stringResponse = mvc.perform(post(USER_URL + "/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
