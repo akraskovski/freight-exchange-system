@@ -19,4 +19,5 @@ class User(
         @Enumerated(value = EnumType.STRING)
         var gender: Gender = Gender.UNKNOWN,
         @OneToOne
-        var contacts: UserContacts) : AbstractEntity(id)
+        var contacts: UserContacts
+) : AbstractEntity(id)

@@ -8,7 +8,6 @@ import javax.persistence.Entity
  */
 @Entity
 class UserContacts(
-
         id: String? = null,
         var email: String?,
         var phone: String?,

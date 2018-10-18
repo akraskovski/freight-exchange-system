@@ -7,8 +7,8 @@ import com.github.akraskovski.fes.domain.model.User
 /**
  * Mapping SignUpUser Dto to the domain User model.
  */
-//TODO: add mapping for the newely created dtos.
-//fun SignUpUser.toUser() = User(
+// TODO: add mapping for the newely created dtos.
+// fun SignUpUser.toUser() = User(
 //        firstname = this.firstname,
 //        lastname = this.lastname,
 //        age = this.age,
