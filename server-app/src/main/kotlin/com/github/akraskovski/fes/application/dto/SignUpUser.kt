@@ -1,21 +1,32 @@
 package com.github.akraskovski.fes.application.dto
 
+import com.github.akraskovski.fes.domain.model.User
+import com.github.akraskovski.fes.domain.model.UserContacts
 import com.github.akraskovski.fes.domain.model.common.Gender
 import javax.validation.constraints.Email
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 /**
  * Dto for the user sign up properties.
  */
-// TODO: add contacts dto
 class SignUpUser(
-    @field:NotBlank var id: String,
+    @field:NotBlank var authProfileId: String,
     @field:NotBlank var firstname: String,
     @field:NotBlank var lastname: String,
-    @field:Min(10) @field:Max(100) var age: Byte?,
-    var phone: String?,
-    var gender: Gender?,
-    @field:Email var email: String
-)
+    @field:NotNull var gender: Gender,
+    @field:Email var email: String,
+    @field:NotBlank var phone: String,
+    var skype: String?,
+    var facebook: String?,
+    var linkedIn: String?,
+    var telegram: Boolean?,
+    var whatsUp: Boolean?
+) {
+    companion object Mapper {
+        fun toUser(dto: SignUpUser): User {
+            val userContacts = UserContacts(null, dto.email, dto.phone, dto.skype, dto.facebook, dto.linkedIn, dto.telegram, dto.whatsUp)
+            return User(null, dto.authProfileId, dto.firstname, dto.lastname, dto.gender, userContacts)
+        }
+    }
+}

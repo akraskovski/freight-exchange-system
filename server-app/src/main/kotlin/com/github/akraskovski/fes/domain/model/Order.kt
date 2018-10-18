@@ -12,7 +12,6 @@ class Order(
     id: String,
     val name: String,
     val description: String,
-    @OneToOne
-    val assignee: User,
+    @OneToOne val assignee: User,
     val cost: Double
 ) : AbstractEntity(id)

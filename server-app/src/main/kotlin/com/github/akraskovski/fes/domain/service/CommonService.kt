@@ -7,7 +7,7 @@ import com.github.akraskovski.fes.domain.model.common.AbstractEntity
  */
 interface CommonService<T : AbstractEntity, in R> {
 
-    fun register(obj: T): T
+    fun create(obj: T): T
 
     fun findById(id: R): T
 

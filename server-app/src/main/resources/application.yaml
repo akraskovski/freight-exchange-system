@@ -18,6 +18,8 @@ spring:
       hibernate:
         jdbc:
           lob.non_contextual_creation: true
+    hibernate:
+      ddl-auto: create-drop
 ###################################################################
 
 ############## Auth-server connection ###########################################

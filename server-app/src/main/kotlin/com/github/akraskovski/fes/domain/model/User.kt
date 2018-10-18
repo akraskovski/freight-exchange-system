@@ -12,12 +12,10 @@ import javax.persistence.OneToOne
  */
 @Entity(name = "user_details")
 class User(
-    id: String? = null,
-    var firstname: String,
-    var lastname: String,
-    var age: Byte?,
-    @Enumerated(value = EnumType.STRING)
-    var gender: Gender = Gender.UNKNOWN,
-    @OneToOne
-    var contacts: UserContacts
+    id: String?,
+    val authProfileId: String,
+    val firstName: String,
+    val lastName: String,
+    @Enumerated(value = EnumType.STRING) val gender: Gender,
+    @OneToOne val contacts: UserContacts
 ) : AbstractEntity(id)

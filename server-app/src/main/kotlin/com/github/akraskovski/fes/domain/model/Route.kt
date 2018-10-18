@@ -12,6 +12,5 @@ class Route(
     id: String,
     val startPoint: String,
     val endPoint: String,
-    @OneToOne
-    val order: Order
+    @OneToOne val order: Order
 ) : AbstractEntity(id)

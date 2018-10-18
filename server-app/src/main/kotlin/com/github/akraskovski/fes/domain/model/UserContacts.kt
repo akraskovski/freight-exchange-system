@@ -8,12 +8,12 @@ import javax.persistence.Entity
  */
 @Entity
 class UserContacts(
-    id: String? = null,
-    var email: String?,
-    var phone: String?,
-    var skype: String?,
-    var facebook: String?,
-    var linkedIn: String?,
-    var telegram: Boolean?,
-    var whatsUp: Boolean?
+    id: String?,
+    val email: String,
+    val phone: String,
+    val skype: String?,
+    val facebook: String?,
+    val linkedIn: String?,
+    val telegram: Boolean?,
+    val whatsUp: Boolean?
 ) : AbstractEntity(id)

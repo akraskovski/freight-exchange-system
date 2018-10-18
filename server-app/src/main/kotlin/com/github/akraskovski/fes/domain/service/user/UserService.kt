@@ -9,8 +9,13 @@ import com.github.akraskovski.fes.domain.service.CommonService
 interface UserService : CommonService<User, String> {
 
     /**
-     * Finds User by a given email.
+     * Registers an new user account linked to the auth user profile.
+     */
+    fun registerAccount(user: User): User
+
+    /**
+     * Finds User by a given first name and last name.
      * Throws exception if user was not found.
      */
-    fun findByEmail(email: String): User
+    fun findByFirstNameAndLastName(firstName: String, lastName: String): User
 }

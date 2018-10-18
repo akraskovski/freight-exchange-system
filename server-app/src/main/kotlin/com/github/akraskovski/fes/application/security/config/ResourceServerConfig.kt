@@ -56,8 +56,8 @@ class ResourceServerConfig : ResourceServerConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.antMatcher("/api/**")
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/fes/v1/account/register").access("#oauth2.hasScope('write')")
-                .antMatchers(HttpMethod.GET, "/api/fes/v1").access("#oauth2.hasScope('read')")
+                .antMatchers(HttpMethod.POST, "/api/v1/user/account/register").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1").access("#oauth2.hasScope('read')")
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()

@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository
  * Basic implementation of the CommonService using.
  * Could be used as default delegated service.
  */
-class BasicOperationService<T : AbstractEntity, R> constructor(val jpaRepository: JpaRepository<T, R>) : CommonService<T, R> {
+class BasicOperationService<T : AbstractEntity, R> constructor(private val jpaRepository: JpaRepository<T, R>) : CommonService<T, R> {
 
-    override fun register(obj: T): T = jpaRepository.save(obj)
+    override fun create(obj: T): T = jpaRepository.save(obj)
 
     override fun findById(id: R): T = jpaRepository.findById(id).orElseThrow { EntityNotFoundException() }
 

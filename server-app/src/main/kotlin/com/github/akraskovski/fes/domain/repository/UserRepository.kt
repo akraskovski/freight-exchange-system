@@ -13,5 +13,5 @@ interface UserRepository : JpaRepository<User, String> {
     /**
      * Find user by a given email in database.
      */
-    fun findByEmail(email: String): User?
+    fun findByFirstNameAndLastName(firstName: String, lastName: String): User?
 }
