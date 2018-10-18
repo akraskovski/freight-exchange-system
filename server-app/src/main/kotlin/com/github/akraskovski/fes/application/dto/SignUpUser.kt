@@ -11,11 +11,11 @@ import javax.validation.constraints.NotBlank
  */
 // TODO: add contacts dto
 class SignUpUser(
-        @field:NotBlank var id: String,
-        @field:NotBlank var firstname: String,
-        @field:NotBlank var lastname: String,
-        @field:Min(10) @field:Max(100) var age: Byte?,
-        var phone: String?,
-        var gender: Gender?,
-        @field:Email var email: String
+    @field:NotBlank var id: String,
+    @field:NotBlank var firstname: String,
+    @field:NotBlank var lastname: String,
+    @field:Min(10) @field:Max(100) var age: Byte?,
+    var phone: String?,
+    var gender: Gender?,
+    @field:Email var email: String
 )

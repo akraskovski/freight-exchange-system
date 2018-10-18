@@ -1,4 +1,4 @@
-package com.github.akraskovski.fes.security.config
+package com.github.akraskovski.fes.application.security.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

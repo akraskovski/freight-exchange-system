@@ -1,8 +1,8 @@
 package com.github.akraskovski.fes.domain.model.common
 
 import org.hibernate.annotations.GenericGenerator
-import org.springframework.data.annotation.Id
 import javax.persistence.GeneratedValue
+import javax.persistence.Id
 import javax.persistence.MappedSuperclass
 
 /**
@@ -10,8 +10,8 @@ import javax.persistence.MappedSuperclass
  */
 @MappedSuperclass
 abstract class AbstractEntity(
-        @Id
-        @GeneratedValue(generator = "uuid")
-        @GenericGenerator(name = "uuid", strategy = "uuid2")
-        val id: String?
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    var id: String?
 )
