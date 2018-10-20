@@ -3,6 +3,7 @@ package com.github.akraskovski.fes.web.controller
 import com.github.akraskovski.fes.domain.service.user.UserService
 import com.github.akraskovski.fes.web.dto.IdDto
 import com.github.akraskovski.fes.web.dto.SignUpUser
+import com.github.akraskovski.fes.web.mapping.toUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
@@ -25,5 +26,5 @@ class UserController @Autowired constructor(private val userService: UserService
     @Secured("ROLE_ADMIN")
     @PostMapping("/account/register")
     fun registerAccount(@RequestBody @Valid signUpUser: SignUpUser): ResponseEntity<IdDto> =
-        ResponseEntity.ok(IdDto(userService.registerAccount(SignUpUser.toUser(signUpUser)).id!!))
+        ResponseEntity.ok(IdDto(userService.registerAccount(signUpUser.toUser()).id!!))
 }

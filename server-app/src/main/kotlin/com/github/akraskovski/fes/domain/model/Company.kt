@@ -9,8 +9,9 @@ import javax.persistence.OneToOne
  */
 @Entity
 class Company(
-    id: String,
+    id: String?,
     val name: String,
-    @OneToOne val owner: User,
-    val isActive: Boolean
+    val description: String,
+    @OneToOne var owner: User?,
+    var isActive: Boolean?
 ) : AbstractEntity(id)

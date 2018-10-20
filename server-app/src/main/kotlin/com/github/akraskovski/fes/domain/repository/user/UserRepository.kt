@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 /**
- * Users DAO.
+ * Users data access layer.
  */
 @Repository
 interface UserRepository : JpaRepository<User, String> {

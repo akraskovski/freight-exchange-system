@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 /**
- * UserContacts DAO.
+ * UserContacts data access layer.
  */
 @Repository
 interface UserContactsRepository : JpaRepository<UserContacts, String>
