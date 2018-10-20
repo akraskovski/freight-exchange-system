@@ -1,7 +1,12 @@
 package com.github.akraskovski.auth.server.domain.model;
 
 import org.hibernate.annotations.GenericGenerator
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
 
 /**
  * Domain model used for securing app.
@@ -21,6 +26,8 @@ class User() {
 
     @Enumerated(EnumType.STRING)
     var authority: Authority? = null
+
+    var isActive: Boolean = false
 
     constructor(email: String, password: String, authority: Authority) : this() {
         this.email = email

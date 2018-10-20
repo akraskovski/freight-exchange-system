@@ -16,6 +16,11 @@ interface UserService {
     infix fun signUp(user: User): User
 
     /**
+     * Changes user account active status.
+     */
+    infix fun activateAccount(userId: String): User
+
+    /**
      * Find by id user.
      *
      * @param id the id

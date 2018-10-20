@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 class ServerSecurityConfig @Autowired constructor(val customUserDetailsService: UserDetailsService) : WebSecurityConfigurerAdapter() {
 
     @Bean
@@ -24,7 +26,6 @@ class ServerSecurityConfig @Autowired constructor(val customUserDetailsService: 
 
     override fun configure(http: HttpSecurity?) {
         http!!.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/user/sign-up").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .userDetailsService(customUserDetailsService)
