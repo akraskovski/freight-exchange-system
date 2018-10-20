@@ -2,6 +2,7 @@ package com.github.akraskovski.fes.domain.model
 
 import com.github.akraskovski.fes.domain.model.common.AbstractEntity
 import com.github.akraskovski.fes.domain.model.common.Gender
+import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -17,5 +18,5 @@ class User(
     val firstName: String,
     val lastName: String,
     @Enumerated(value = EnumType.STRING) val gender: Gender,
-    @OneToOne val contacts: UserContacts
+    @OneToOne(cascade = [CascadeType.PERSIST, CascadeType.REMOVE]) val contacts: UserContacts
 ) : AbstractEntity(id)

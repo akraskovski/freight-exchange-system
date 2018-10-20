@@ -7,7 +7,7 @@ import org.springframework.web.client.exchange
 import java.net.URI
 
 /**
- * Custom implementation of GET request method with just one Authorization header.
+ * Custom implementation of GET request method with just one authorization header.
  */
 internal inline fun <reified T : Any> RestTemplate.getForEntityWithAuth(url: String, crossinline authorization: () -> String): ResponseEntity<T> {
     val requestEntity = RequestEntity.get(URI.create(url))

@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate
  * Basic implementation of the AuthorizationRepository.
  */
 @Service
-class OAuthAuthorizationRepository @Autowired constructor(
+class BaseAuthorizationRepository @Autowired constructor(
     private val authProperties: AuthServerProperties,
     private val restTemplate: RestTemplate
 ) : AuthorizationRepository {
@@ -26,7 +26,6 @@ class OAuthAuthorizationRepository @Autowired constructor(
         val requestUrl = "${authProperties.connection!!.url}/user/$userId"
 
         return try {
-
             return restTemplate.getForEntityWithAuth<Map<String, String>>(requestUrl) { "Basic ${String(encodeBasic())}" }
                 .let { it.statusCode == HttpStatus.OK && it.body?.get("id") == userId }
         } catch (e: RestClientException) {
