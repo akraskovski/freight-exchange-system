@@ -1,6 +1,7 @@
 package com.github.akraskovski.fes.domain.service.user
 
 import com.github.akraskovski.fes.domain.model.User
+import com.github.akraskovski.fes.domain.repository.security.AuthorizationRepository
 import com.github.akraskovski.fes.domain.repository.user.UserContactsRepository
 import com.github.akraskovski.fes.domain.repository.user.UserRepository
 import com.github.akraskovski.fes.domain.service.BasicOperationService
@@ -13,12 +14,18 @@ import org.springframework.stereotype.Service
  * Basic implementation of the UserService.
  */
 @Service
-class BasicUserService @Autowired constructor(private val userRepository: UserRepository, private val userContactsRepository: UserContactsRepository)
-    : CommonService<User, String> by BasicOperationService(userRepository), UserService {
+class BasicUserService @Autowired constructor(
+    private val userRepository: UserRepository,
+    private val userContactsRepository: UserContactsRepository,
+    private val authorizationRepository: AuthorizationRepository
+) : CommonService<User, String> by BasicOperationService(userRepository), UserService {
 
     override fun registerAccount(user: User): User {
-        userContactsRepository.save(user.contacts)
+        if (!authorizationRepository.isAccountRegistered(user.authProfileId)) {
+            throw EntityNotFoundException("Registering account doesn't exist in authorization server")
+        }
 
+        userContactsRepository.save(user.contacts)
         return create(user)
     }
 

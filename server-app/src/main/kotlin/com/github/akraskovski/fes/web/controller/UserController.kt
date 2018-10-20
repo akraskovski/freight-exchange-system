@@ -22,7 +22,7 @@ class UserController @Autowired constructor(private val userService: UserService
     /**
      * Registering a new user account.
      */
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @PostMapping("/account/register")
     fun registerAccount(@RequestBody @Valid signUpUser: SignUpUser): ResponseEntity<IdDto> =
         ResponseEntity.ok(IdDto(userService.registerAccount(SignUpUser.toUser(signUpUser)).id!!))
