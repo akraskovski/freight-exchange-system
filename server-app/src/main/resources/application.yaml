@@ -29,4 +29,7 @@ auth:
       url: http://localhost:7777
       clientId: fes-client
       clientSecret: aH{G_{])6y[j8apFzqaRJ-BbwpAb{c?/4P-xC[,2yN<m94Y9
+    admin:
+      email: ${auth_admin_email}
+      password: ${auth_admin_pass}
 ###################################################################

@@ -1,5 +1,7 @@
 package com.github.akraskovski.fes.web.security.config
 
+import com.github.akraskovski.fes.web.config.AuthServerProperties
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -21,19 +23,10 @@ const val BASE_API_URL = "/api/v1"
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-class ResourceServerConfig : ResourceServerConfigurerAdapter() {
+class ResourceServerConfig @Autowired constructor(private var authProperties: AuthServerProperties) : ResourceServerConfigurerAdapter() {
 
     @Value("\${resource.id:company_api}")
     lateinit var resourceId: String
-
-    @Value("\${auth.server.connection.url}")
-    lateinit var authServerUrl: String
-
-    @Value("\${auth.server.connection.clientId}")
-    lateinit var clientId: String
-
-    @Value("\${auth.server.connection.clientSecret}")
-    lateinit var clientSecret: String
 
     /**
      * {@link RemoteTokenServices} custom configuration for the remote connection to the Authorization Server.
@@ -45,9 +38,9 @@ class ResourceServerConfig : ResourceServerConfigurerAdapter() {
     @Primary
     fun remoteTokenServices(): RemoteTokenServices {
         val remoteTokenServices = RemoteTokenServices()
-        remoteTokenServices.setCheckTokenEndpointUrl("$authServerUrl/oauth/check_token")
-        remoteTokenServices.setClientId(clientId)
-        remoteTokenServices.setClientSecret(clientSecret)
+        remoteTokenServices.setCheckTokenEndpointUrl("${authProperties.connection!!.url}/oauth/check_token")
+        remoteTokenServices.setClientId(authProperties.connection!!.clientId)
+        remoteTokenServices.setClientSecret(authProperties.connection!!.clientSecret)
         return remoteTokenServices
     }
 

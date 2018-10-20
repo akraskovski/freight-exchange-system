@@ -1,12 +1,15 @@
-package com.github.akraskovski.auth.server.web.controller;
+package com.github.akraskovski.auth.server.web.controller
 
 import com.github.akraskovski.auth.server.domain.service.UserService
 import com.github.akraskovski.auth.server.web.controller.dto.IdDto
 import com.github.akraskovski.auth.server.web.controller.dto.SignUpUser
+import com.github.akraskovski.auth.server.web.controller.dto.UserDetails
 import com.github.akraskovski.auth.server.web.mapping.toUser
+import com.github.akraskovski.auth.server.web.mapping.toUserDetails
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -32,9 +35,18 @@ class UserController @Autowired constructor(val userService: UserService) {
     @PostMapping("/sign-up")
     fun signUp(@RequestBody @Valid signUpUser: SignUpUser): ResponseEntity<IdDto> = ResponseEntity.ok(IdDto((userService signUp signUpUser.toUser()).id!!))
 
+    /**
+     * Active or deactivate user account depends on the current account state.
+     */
     @PutMapping("/{userId}/activate")
     fun activateAccount(@PathVariable userId: String) {
         userService.activateAccount(userId)
     }
+
+    /**
+     * Loading user details by a given id.
+     */
+    @GetMapping("/{userId}")
+    fun getDetails(@PathVariable userId: String): ResponseEntity<UserDetails> = ResponseEntity.ok(userService.getById(userId).toUserDetails())
 }
 

@@ -1,8 +1,8 @@
 package com.github.akraskovski.fes.domain.service.user
 
 import com.github.akraskovski.fes.domain.model.User
-import com.github.akraskovski.fes.domain.repository.UserContactsRepository
-import com.github.akraskovski.fes.domain.repository.UserRepository
+import com.github.akraskovski.fes.domain.repository.user.UserContactsRepository
+import com.github.akraskovski.fes.domain.repository.user.UserRepository
 import com.github.akraskovski.fes.domain.service.BasicOperationService
 import com.github.akraskovski.fes.domain.service.CommonService
 import com.github.akraskovski.fes.domain.service.exception.EntityNotFoundException
