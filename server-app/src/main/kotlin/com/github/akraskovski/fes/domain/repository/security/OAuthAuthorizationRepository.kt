@@ -27,16 +27,15 @@ class OAuthAuthorizationRepository @Autowired constructor(
 
         return try {
 
-            val encodePasswordFun = {
-                "Basic ${String(Base64.encodeBase64("${authProperties.admin!!.email}:${authProperties.admin!!.password}".toByteArray()))}"
-            }
+            val encodePasswordFun = { "Basic ${String(encodeBasic())}" }
             val response = restTemplate.getForEntityWithAuth<Map<String, String>>(requestUrl, encodePasswordFun)
 
             response.statusCode == HttpStatus.OK && response.body?.get("id") == userId
-
         } catch (e: RestClientException) {
             log.error("Couldn't execute fetching auth server user request", e)
             false
         }
     }
+
+    private fun encodeBasic() = Base64.encodeBase64("${authProperties.admin!!.email}:${authProperties.admin!!.password}".toByteArray())
 }
