@@ -50,8 +50,8 @@ class AuthServerConfig @Autowired constructor(
                 .withClient(CLIENT_ID)
                 .secret(passwordEncoder.encode(CLIENT_SECRET))
                 .resourceIds(RESOURCE_ID)
-                .authorizedGrantTypes("password", "refresh_token")
-//                .authorities(Authority.ROLE_ADMIN.name, Authority.ROLE_USER.name)
+                .authorizedGrantTypes("client_credentials", "password", "refresh_token")
+                .authorities(Authority.ROLE_ADMIN.name)
                 .scopes(*CLIENT_SCOPES)
     }
 

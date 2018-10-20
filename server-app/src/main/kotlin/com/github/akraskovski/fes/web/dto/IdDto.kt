@@ -1,4 +1,4 @@
-package com.github.akraskovski.fes.application.dto
+package com.github.akraskovski.fes.web.dto
 
 /**
  * Dto for returning object identifier.

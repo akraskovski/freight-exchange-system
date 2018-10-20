@@ -20,7 +20,9 @@ class BasicUserService @Autowired constructor(val userRepository: UserRepository
             throw PermissionDeniedException("You cannot register user with this role")
         }
 
-        findByEmail(user.email!!) ?: throw UserAlreadyExistsException(user.email!!)
+        if (findByEmail(user.email!!) != null) {
+            throw UserAlreadyExistsException(user.email!!)
+        }
 
         user.password = passwordEncoder.encode(user.password)
 

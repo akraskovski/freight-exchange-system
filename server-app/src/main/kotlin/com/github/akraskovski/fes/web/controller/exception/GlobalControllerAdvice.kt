@@ -1,4 +1,4 @@
-package com.github.akraskovski.fes.application.controller.exception
+package com.github.akraskovski.fes.web.controller.exception
 
 import com.github.akraskovski.fes.domain.service.exception.EntityNotFoundException
 import org.slf4j.Logger

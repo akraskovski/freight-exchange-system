@@ -1,4 +1,4 @@
-package com.github.akraskovski.fes.application.security.config
+package com.github.akraskovski.fes.web.security.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -13,6 +13,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices
 
+const val BASE_API_URL = "/api/v1"
+
 /**
  * Configuration this module as an OAuth2.0 Resource Server instance.
  */
@@ -25,7 +27,7 @@ class ResourceServerConfig : ResourceServerConfigurerAdapter() {
     lateinit var resourceId: String
 
     @Value("\${auth.server.connection.url}")
-    lateinit var checkTokenUrl: String
+    lateinit var authServerUrl: String
 
     @Value("\${auth.server.connection.clientId}")
     lateinit var clientId: String
@@ -43,7 +45,7 @@ class ResourceServerConfig : ResourceServerConfigurerAdapter() {
     @Primary
     fun remoteTokenServices(): RemoteTokenServices {
         val remoteTokenServices = RemoteTokenServices()
-        remoteTokenServices.setCheckTokenEndpointUrl(checkTokenUrl)
+        remoteTokenServices.setCheckTokenEndpointUrl("$authServerUrl/oauth/check_token")
         remoteTokenServices.setClientId(clientId)
         remoteTokenServices.setClientSecret(clientSecret)
         return remoteTokenServices
@@ -54,13 +56,15 @@ class ResourceServerConfig : ResourceServerConfigurerAdapter() {
     }
 
     override fun configure(http: HttpSecurity) {
-        http.antMatcher("/api/**")
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/v1/user/account/register").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1").access("#oauth2.hasScope('read')")
-                .anyRequest().authenticated()
-                .and()
-                .csrf().disable()
-                .exceptionHandling().accessDeniedHandler(OAuth2AccessDeniedHandler())
+        http.antMatcher("$BASE_API_URL/**")
+            .authorizeRequests()
+            .antMatchers(HttpMethod.GET, "$BASE_API_URL/**").access("#oauth2.hasScope('read')")
+            .antMatchers(HttpMethod.POST, "$BASE_API_URL/**").access("#oauth2.hasScope('write')")
+            .antMatchers(HttpMethod.PUT, "$BASE_API_URL/**").access("#oauth2.hasScope('write')")
+            .antMatchers(HttpMethod.DELETE, "$BASE_API_URL/**").access("#oauth2.hasScope('write')")
+            .anyRequest().authenticated()
+            .and()
+            .csrf().disable()
+            .exceptionHandling().accessDeniedHandler(OAuth2AccessDeniedHandler())
     }
 }

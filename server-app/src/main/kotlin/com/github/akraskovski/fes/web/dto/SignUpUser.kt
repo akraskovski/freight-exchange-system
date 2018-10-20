@@ -1,4 +1,4 @@
-package com.github.akraskovski.fes.application.dto
+package com.github.akraskovski.fes.web.dto
 
 import com.github.akraskovski.fes.domain.model.User
 import com.github.akraskovski.fes.domain.model.UserContacts
@@ -12,8 +12,8 @@ import javax.validation.constraints.NotNull
  */
 class SignUpUser(
     @field:NotBlank var authProfileId: String,
-    @field:NotBlank var firstname: String,
-    @field:NotBlank var lastname: String,
+    @field:NotBlank var firstName: String,
+    @field:NotBlank var lastName: String,
     @field:NotNull var gender: Gender,
     @field:Email var email: String,
     @field:NotBlank var phone: String,
@@ -26,7 +26,7 @@ class SignUpUser(
     companion object Mapper {
         fun toUser(dto: SignUpUser): User {
             val userContacts = UserContacts(null, dto.email, dto.phone, dto.skype, dto.facebook, dto.linkedIn, dto.telegram, dto.whatsUp)
-            return User(null, dto.authProfileId, dto.firstname, dto.lastname, dto.gender, userContacts)
+            return User(null, dto.authProfileId, dto.firstName, dto.lastName, dto.gender, userContacts)
         }
     }
 }
