@@ -16,3 +16,14 @@ internal inline fun <reified T : Any> RestTemplate.getForEntityWithAuth(url: Str
 
     return exchange(requestEntity)
 }
+
+/**
+ * Custom implementation of PUT request method with just one authorization header.
+ */
+internal inline fun <reified T : Any> RestTemplate.putForEntityWithAuth(url: String, crossinline authorization: () -> String): ResponseEntity<T> {
+    val requestEntity = RequestEntity.put(URI.create(url))
+        .header("Authorization", authorization())
+        .build()
+
+    return exchange(requestEntity)
+}

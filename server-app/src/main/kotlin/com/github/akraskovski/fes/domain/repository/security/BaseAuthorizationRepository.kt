@@ -1,6 +1,7 @@
 package com.github.akraskovski.fes.domain.repository.security
 
 import com.github.akraskovski.fes.domain.repository.extension.getForEntityWithAuth
+import com.github.akraskovski.fes.domain.repository.extension.putForEntityWithAuth
 import com.github.akraskovski.fes.web.config.AuthServerProperties
 import org.apache.tomcat.util.codec.binary.Base64
 import org.slf4j.Logger
@@ -31,6 +32,17 @@ class BaseAuthorizationRepository @Autowired constructor(
         } catch (e: RestClientException) {
             log.error("Couldn't execute fetching auth server user request", e)
             false
+        }
+    }
+
+    override fun activateAccount(userId: String) {
+        val requestUrl = "${authProperties.connection!!.url}/user/$userId/activate"
+
+        try {
+            restTemplate.putForEntityWithAuth<Map<String, String>>(requestUrl) { "Basic ${String(encodeBasic())}" }
+                .let { if (it.statusCode != HttpStatus.OK) throw RestClientException("Unexpected response status: ${it.statusCode}") }
+        } catch (e: RestClientException) {
+            log.error("Couldn't execute user activation request", e)
         }
     }
 

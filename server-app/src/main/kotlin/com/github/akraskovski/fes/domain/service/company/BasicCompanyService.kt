@@ -10,6 +10,8 @@ import com.github.akraskovski.fes.domain.service.extension.SecurityHelper
 import com.github.akraskovski.fes.domain.service.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.util.UUID
 
 /**
  * Basic implementation of the CompanyService.
@@ -31,15 +33,27 @@ class BasicCompanyService @Autowired constructor(
 
         val userInvite: UserInvite? = userInviteRepository.findByEmailAndCompany(email, company)
 
-        //TODO: implement process logic
         if (userInvite != null) processExistingInvite(userInvite) else processNewInvite(email, company)
     }
 
     private fun processExistingInvite(userInvite: UserInvite) {
+        val currentTime = LocalDateTime.now()
 
+        if (userInvite.expiresAt.isAfter(currentTime)) {
+            userInvite.expiresAt = currentTime.plusDays(1)
+            userInviteRepository.save(userInvite)
+        }
+
+        // TODO: send email notification
     }
 
     private fun processNewInvite(email: String, company: Company) {
+        val expireDate = LocalDateTime.now().plusDays(1)
+        val token = UUID.randomUUID().toString()
 
+        val userInvite = UserInvite(null, company, email, token, expireDate)
+        userInviteRepository.save(userInvite)
+
+        // TODO: send email notification
     }
 }

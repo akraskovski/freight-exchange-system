@@ -14,5 +14,5 @@ class UserInvite(
     @ManyToOne val company: Company,
     val email: String,
     val token: String,
-    val expiresAt: LocalDateTime
+    var expiresAt: LocalDateTime
 ) : AbstractEntity(id)
