@@ -17,12 +17,9 @@ class BasicCompanyService @Autowired constructor(
     private val userService: UserService
 ) : CommonService<Company, String> by BasicOperationService(companyRepository), CompanyService {
 
-    override fun create(company: Company, ownerId: String): Company {
-        val companyOwner = userService.findById(ownerId)
+    override fun create(company: Company, ownerId: String) = save(company.apply { isActive = false; owner = userService.findById(ownerId) })
 
-        company.isActive = false
-        company.owner = companyOwner
+    override fun sendInvite() {
 
-        return create(company)
     }
 }

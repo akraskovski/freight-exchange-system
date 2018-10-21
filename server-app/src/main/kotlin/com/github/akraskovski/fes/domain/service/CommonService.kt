@@ -7,15 +7,28 @@ import com.github.akraskovski.fes.domain.model.common.AbstractEntity
  */
 interface CommonService<T : AbstractEntity, in R> {
 
-    fun create(obj: T): T
+    /**
+     * Common create/update operation.
+     */
+    fun save(obj: T): T
 
+    /**
+     * Find domain entity by ID or throws EntityNotFoundException.
+     */
     fun findById(id: R): T
 
+    /**
+     * Returns all entities with a given type.
+     */
     fun findAll(): List<T>
 
-    fun update(obj: T): T
-
+    /**
+     * Removes entity by a given id.
+     */
     fun delete(id: R)
 
+    /**
+     * Removes given at parameter entity.
+     */
     fun delete(obj: T)
 }

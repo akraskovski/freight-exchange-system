@@ -23,7 +23,7 @@ class BasicUserService @Autowired constructor(
             throw EntityNotFoundException("Registering account doesn't exist in authorization server")
         }
 
-        return create(user)
+        return save(user)
     }
 
     override fun findByFirstNameAndLastName(firstName: String, lastName: String): User = userRepository.findByFirstNameAndLastName(firstName, lastName)

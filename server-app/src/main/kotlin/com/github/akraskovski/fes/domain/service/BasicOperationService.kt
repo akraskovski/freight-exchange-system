@@ -10,13 +10,11 @@ import org.springframework.data.jpa.repository.JpaRepository
  */
 class BasicOperationService<T : AbstractEntity, R> constructor(private val jpaRepository: JpaRepository<T, R>) : CommonService<T, R> {
 
-    override fun create(obj: T): T = jpaRepository.save(obj)
+    override fun save(obj: T): T = jpaRepository.save(obj)
 
     override fun findById(id: R): T = jpaRepository.findById(id).orElseThrow { EntityNotFoundException() }
 
     override fun findAll(): List<T> = jpaRepository.findAll()
-
-    override fun update(obj: T): T = jpaRepository.save(obj)
 
     override fun delete(id: R) = jpaRepository.deleteById(id)
 

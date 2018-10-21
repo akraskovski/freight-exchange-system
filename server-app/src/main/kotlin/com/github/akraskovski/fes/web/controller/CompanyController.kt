@@ -7,6 +7,7 @@ import com.github.akraskovski.fes.web.mapping.toCompany
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -24,7 +25,14 @@ class CompanyController @Autowired constructor(private val companyService: Compa
      * Registering a new company account.
      */
     @Secured("ROLE_ADMIN")
-    @PostMapping("/create")
+    @PostMapping("/save")
     fun registerAccount(@RequestBody @Valid registerCompany: RegisterCompany): ResponseEntity<IdDto> =
         ResponseEntity.ok(IdDto(companyService.create(registerCompany.toCompany(), registerCompany.ownerId).id!!))
+
+    //TODO: begin from this dto
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'COMPANY_ADMIN')")
+    @PostMapping
+    fun inviteUser(@RequestBody @Valid inviteDto: Any) {
+
+    }
 }

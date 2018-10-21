@@ -12,4 +12,10 @@ interface CompanyService : CommonService<Company, String> {
      * Registration of the company account.
      */
     fun create(company: Company, ownerId: String): Company
+
+    /**
+     * Sends invite to chosen company via given user email.
+     * After registration user account immediately becomes active and related to the inviting company.
+     */
+    fun sendInvite()
 }
