@@ -14,8 +14,7 @@ interface UserService : CommonService<User, String> {
     fun registerAccount(user: User): User
 
     /**
-     * Finds User by a given first name and last name.
-     * Throws exception if user was not found.
+     * Find user by a given email or throws exception if user was not found.
      */
-    fun findByFirstNameAndLastName(firstName: String, lastName: String): User
+    fun findByEmail(email: String): User
 }

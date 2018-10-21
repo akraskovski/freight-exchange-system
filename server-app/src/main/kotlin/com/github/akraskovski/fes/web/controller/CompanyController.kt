@@ -3,10 +3,10 @@ package com.github.akraskovski.fes.web.controller
 import com.github.akraskovski.fes.domain.service.company.CompanyService
 import com.github.akraskovski.fes.web.dto.IdDto
 import com.github.akraskovski.fes.web.dto.RegisterCompany
+import com.github.akraskovski.fes.web.dto.UserInvite2Company
 import com.github.akraskovski.fes.web.mapping.toCompany
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -24,15 +24,14 @@ class CompanyController @Autowired constructor(private val companyService: Compa
     /**
      * Registering a new company account.
      */
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     fun registerAccount(@RequestBody @Valid registerCompany: RegisterCompany): ResponseEntity<IdDto> =
         ResponseEntity.ok(IdDto(companyService.create(registerCompany.toCompany(), registerCompany.ownerId).id!!))
 
-    //TODO: begin from this dto
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'COMPANY_ADMIN')")
-    @PostMapping
-    fun inviteUser(@RequestBody @Valid inviteDto: Any) {
-
+    @PreAuthorize("hasRole('COMPANY_ADMIN')")
+    @PostMapping("/invite")
+    fun inviteUser(@RequestBody @Valid inviteDto: UserInvite2Company) {
+        companyService.sendInvite(inviteDto.email)
     }
 }

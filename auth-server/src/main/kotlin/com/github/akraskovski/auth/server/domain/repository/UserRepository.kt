@@ -1,4 +1,4 @@
-package com.github.akraskovski.auth.server.domain.repository;
+package com.github.akraskovski.auth.server.domain.repository
 
 import com.github.akraskovski.auth.server.domain.model.User
 import org.springframework.data.jpa.repository.JpaRepository

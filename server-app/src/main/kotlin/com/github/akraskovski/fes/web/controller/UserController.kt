@@ -6,7 +6,7 @@ import com.github.akraskovski.fes.web.dto.SignUpUser
 import com.github.akraskovski.fes.web.mapping.toUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.annotation.Secured
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,8 +23,9 @@ class UserController @Autowired constructor(private val userService: UserService
     /**
      * Registering a new user account.
      */
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/account/register")
+    //TODO: add invite token during registration
     fun registerAccount(@RequestBody @Valid signUpUser: SignUpUser): ResponseEntity<IdDto> =
         ResponseEntity.ok(IdDto(userService.registerAccount(signUpUser.toUser()).id!!))
 }

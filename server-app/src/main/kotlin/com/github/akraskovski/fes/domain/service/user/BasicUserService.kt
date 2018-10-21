@@ -26,8 +26,8 @@ class BasicUserService @Autowired constructor(
         return save(user)
     }
 
-    override fun findByFirstNameAndLastName(firstName: String, lastName: String): User = userRepository.findByFirstNameAndLastName(firstName, lastName)
-        ?: handleUserNotFound("$firstName $lastName")
+    override fun findByEmail(email: String): User = userRepository.findByContactsEmail(email)
+        ?: handleUserNotFound(email)
 
     private fun handleUserNotFound(arg: String): Nothing = throw EntityNotFoundException("Couldn't find user: $arg")
 }

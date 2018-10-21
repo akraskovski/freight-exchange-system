@@ -14,8 +14,9 @@ interface CompanyService : CommonService<Company, String> {
     fun create(company: Company, ownerId: String): Company
 
     /**
-     * Sends invite to chosen company via given user email.
+     * Sends invite to chosen current user company via given user email.
+     * Expected that current logged in user is company administrator.
      * After registration user account immediately becomes active and related to the inviting company.
      */
-    fun sendInvite()
+    fun sendInvite(email: String)
 }

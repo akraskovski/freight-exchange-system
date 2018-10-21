@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository
 interface UserRepository : JpaRepository<User, String> {
 
     /**
-     * Find user by a given email in database.
+     * Find user by a given email.
      */
-    fun findByFirstNameAndLastName(firstName: String, lastName: String): User?
+    fun findByContactsEmail(email: String): User?
 }
