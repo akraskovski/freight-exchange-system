@@ -1,6 +1,8 @@
 package com.github.akraskovski.fes.domain.service.user
 
 import com.github.akraskovski.fes.domain.model.User
+import com.github.akraskovski.fes.domain.model.UserInvite
+import com.github.akraskovski.fes.domain.repository.company.CompanyRepository
 import com.github.akraskovski.fes.domain.repository.company.UserInviteRepository
 import com.github.akraskovski.fes.domain.repository.security.AuthorizationRepository
 import com.github.akraskovski.fes.domain.repository.user.UserRepository
@@ -18,6 +20,7 @@ import java.time.LocalDateTime
 class BasicUserService @Autowired constructor(
     private val userRepository: UserRepository,
     private val userInviteRepository: UserInviteRepository,
+    private val companyRepository: CompanyRepository,
     private val authorizationRepository: AuthorizationRepository
 ) : CommonService<User, String> by BasicOperationService(userRepository), UserService {
 
@@ -26,9 +29,7 @@ class BasicUserService @Autowired constructor(
             throw EntityNotFoundException("Registering account doesn't exist in authorization server")
         }
 
-        token?.let { applyInviteValues(user, it) }
-
-        return save(user)
+        return token?.let { applyInviteValues(user, it) } ?: save(user)
     }
 
     override fun findByEmail(email: String): User = userRepository.findByContactsEmail(email)
@@ -36,17 +37,24 @@ class BasicUserService @Autowired constructor(
 
     private fun handleUserNotFound(arg: String): Nothing = throw EntityNotFoundException("Couldn't find user: $arg")
 
-    private fun applyInviteValues(user: User, token: String) {
-        userInviteRepository.findByToken(token)
-            ?.apply {
-                if (expiresAt.isAfter(LocalDateTime.now())) {
-                    userInviteRepository.delete(this)
-                    throw IllegalStateException("Invite token was expired")
+    private fun applyInviteValues(user: User, token: String): User {
+        return userInviteRepository.findByToken(token)?.let { processUserInvite(it, user) }
+            ?: throw EntityNotFoundException("Invite token didn't exist")
+    }
+
+    private fun processUserInvite(userInvite: UserInvite, user: User): User {
+        if (userInvite.expiresAt.isBefore(LocalDateTime.now())) {
+            userInviteRepository.delete(userInvite)
+            throw IllegalStateException("Invite token was expired")
+        }
+
+        return save(user)
+            .apply { authorizationRepository.activateAccount(authProfileId) }
+            .also {
+                with(userInvite.company) {
+                    employees.add(it)
+                    companyRepository.save(this)
                 }
-            }
-            ?.let {
-                user.company = it.company
-                authorizationRepository.activateAccount(user.authProfileId)
             }
     }
 }

@@ -9,5 +9,5 @@ import com.github.akraskovski.fes.web.dto.SignUpUser
  */
 fun SignUpUser.toUser(): User {
     val userContacts = UserContacts(null, this.email, this.phone, this.skype, this.facebook, this.linkedIn, this.telegram, this.whatsUp)
-    return User(null, this.authProfileId, this.firstName, this.lastName, this.gender, userContacts, null)
+    return User(null, this.authProfileId, this.firstName, this.lastName, this.gender, userContacts)
 }

@@ -14,6 +14,6 @@ class Company(
     val name: String,
     val description: String,
     @OneToOne var owner: User?,
-    @OneToMany var employees: List<User>,
+    @OneToMany var employees: MutableList<User>,
     var isActive: Boolean?
 ) : AbstractEntity(id)
