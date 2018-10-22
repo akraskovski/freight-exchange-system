@@ -15,9 +15,9 @@ class SignUpUser(
     @field:NotNull var gender: Gender,
     @field:Email var email: String,
     @field:NotBlank var phone: String,
-    var skype: String?,
-    var facebook: String?,
-    var linkedIn: String?,
-    var telegram: Boolean?,
-    var whatsUp: Boolean?
+    var skype: String? = null,
+    var facebook: String? = null,
+    var linkedIn: String? = null,
+    var telegram: Boolean? = null,
+    var whatsUp: Boolean? = null
 )

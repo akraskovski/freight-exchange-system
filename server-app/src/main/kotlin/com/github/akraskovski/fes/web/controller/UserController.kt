@@ -26,7 +26,6 @@ class UserController @Autowired constructor(private val userService: UserService
      */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/account/register")
-    // TODO: write integration test
     fun registerAccount(@RequestBody @Valid signUpUser: SignUpUser, @PathVariable token: String?): ResponseEntity<IdDto> =
         ResponseEntity.ok(IdDto(userService.registerAccount(signUpUser.toUser()).id!!))
 }
