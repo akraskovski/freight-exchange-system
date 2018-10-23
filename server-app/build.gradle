@@ -10,7 +10,6 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
     }
 }
 
@@ -56,15 +55,19 @@ allprojects {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
 subprojects {
     sourceCompatibility = 1.8
 }
 
 sourceCompatibility = 1.8
+
+dependencies {
+    implementation project(':core')
+    implementation('org.springframework.boot:spring-boot-configuration-processor')
+    implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springBootVersion}")
+    implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
+    testImplementation('org.springframework.security:spring-security-test')
+}
 
 task ktlint(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style."
@@ -78,12 +81,4 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     classpath = configurations.ktlint
     main = "com.github.akraskovski.fes.FreightExchangeSystemApplication"
     args "-F", "src/**/*.kt"
-}
-
-dependencies {
-    implementation project(':core')
-    implementation('org.springframework.boot:spring-boot-configuration-processor')
-    implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springBootVersion}")
-    implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
-    testImplementation('org.springframework.security:spring-security-test')
 }

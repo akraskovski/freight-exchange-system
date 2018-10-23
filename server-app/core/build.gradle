@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+    }
+}
+
 apply plugin: "kotlin-jpa"
 
 dependencies {
@@ -12,6 +21,20 @@ bootJar {
 
 jar {
     enabled = true
+    baseName = 'fes-core-module'
 }
 
 ext.moduleName = 'core'
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "src/**/*.kt"
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    classpath = configurations.ktlint
+    args "-F", "src/**/*.kt"
+}
