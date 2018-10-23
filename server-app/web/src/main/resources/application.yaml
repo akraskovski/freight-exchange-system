@@ -1,0 +1,49 @@
+spring:
+  profiles:
+    active: dev
+
+---
+
+############## General ############################################################
+server:
+  port: 8888
+resource:
+  id: fes_api
+
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fes-database
+    username: ${db_user}
+    password: ${db_pass}
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob.non_contextual_creation: true
+    hibernate:
+      ddl-auto: update
+
+auth:
+  server:
+    connection:
+      url: http://localhost:7777
+      clientId: fes-client
+      clientSecret: aH{G_{])6y[j8apFzqaRJ-BbwpAb{c?/4P-xC[,2yN<m94Y9
+    admin:
+      email: ${auth_admin_email}
+      password: ${auth_admin_pass}
+#################################################################################
+
+---
+
+############## Test configuration ###############################################
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fes-database
+    username: postgres
+    password: root
+#################################################################################
