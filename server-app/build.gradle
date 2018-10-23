@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = '1.2.71'
-        springBootVersion = '2.0.5.RELEASE'
+        springBootVersion = '2.0.6.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -14,64 +14,76 @@ buildscript {
     }
 }
 
-//configurations {
-//    ktlint
-//}
+allprojects {
+    group = 'com.github.akraskovski'
+    version = '0.0.1-SNAPSHOT'
 
-apply plugin: 'kotlin'
-apply plugin: "kotlin-jpa"
-apply plugin: 'kotlin-spring'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
-group = 'com.github.akraskovski'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-
-compileKotlin {
-    kotlinOptions {
-        freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
+    configurations {
+        ktlint
     }
-}
-compileTestKotlin {
-    kotlinOptions {
-        freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
+
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-spring'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    compileKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
+    }
+    compileTestKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        implementation('org.springframework.boot:spring-boot-starter-web')
+        implementation('org.springframework.boot:spring-boot-starter-security')
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+        testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+        ktlint "com.github.shyiko:ktlint:0.29.0"
     }
 }
 
 repositories {
     mavenCentral()
-//    jcenter()
+}
+
+subprojects {
+    sourceCompatibility = 1.8
+
+    task ktlint(type: JavaExec, group: "verification") {
+        description = "Check Kotlin code style."
+        classpath = configurations.ktlint
+        main = "com.github.shyiko.ktlint.Main"
+        args "src/**/*.kt"
+    }
+    check.dependsOn ktlint
+}
+
+sourceCompatibility = 1.8
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    classpath = configurations.ktlint
+    main = "com.github.akraskovski.fes.FreightExchangeSystemApplication"
+    args "-F", "src/**/*.kt"
 }
 
 dependencies {
+    implementation project(':core')
     implementation('org.springframework.boot:spring-boot-configuration-processor')
-    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-    implementation('org.springframework.boot:spring-boot-starter-security')
-    implementation('org.springframework.boot:spring-boot-starter-web')
     implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springBootVersion}")
     implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    runtimeOnly('org.postgresql:postgresql')
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.security:spring-security-test')
-    
-//    ktlint "com.github.shyiko:ktlint:0.29.0"
 }
-
-//task ktlint(type: JavaExec, group: "verification") {
-//    description = "Check Kotlin code style."
-//    classpath = configurations.ktlint
-//    main = "com.github.shyiko.ktlint.Main"
-//    args "src/**/*.kt"
-//}
-//check.dependsOn ktlint
-//
-//task ktlintFormat(type: JavaExec, group: "formatting") {
-//    classpath = configurations.ktlint
-//    main = "com.github.akraskovski.fes.FreightExchangeSystemApplication"
-//    args "-F", "src/**/*.kt"
-//}

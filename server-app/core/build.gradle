@@ -1,0 +1,17 @@
+apply plugin: "kotlin-jpa"
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
+    runtimeOnly('org.postgresql:postgresql')
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+ext.moduleName = 'core'

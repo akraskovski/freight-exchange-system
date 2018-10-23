@@ -1,5 +1,3 @@
 rootProject.name = 'freight-exchange-system'
 
-include 'web'
-include 'domain'
-
+include 'core'
