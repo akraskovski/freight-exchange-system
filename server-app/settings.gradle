@@ -1,3 +1,4 @@
 rootProject.name = 'freight-exchange-system'
 
 include 'core'
+include 'email.notification'

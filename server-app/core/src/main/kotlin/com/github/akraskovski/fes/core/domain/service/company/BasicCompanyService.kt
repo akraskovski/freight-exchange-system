@@ -7,6 +7,7 @@ import com.github.akraskovski.fes.core.domain.repository.company.UserInviteRepos
 import com.github.akraskovski.fes.core.domain.service.BasicOperationService
 import com.github.akraskovski.fes.core.domain.service.CommonService
 import com.github.akraskovski.fes.core.domain.service.extension.SecurityHelper
+import com.github.akraskovski.fes.core.domain.service.notification.NotificationService
 import com.github.akraskovski.fes.core.domain.service.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -21,6 +22,7 @@ class BasicCompanyService @Autowired constructor(
     private val userInviteRepository: UserInviteRepository,
     private val companyRepository: CompanyRepository,
     private val securityHelper: SecurityHelper,
+    private val notificationService: NotificationService,
     private val userService: UserService
 ) : CommonService<Company, String> by BasicOperationService(companyRepository), CompanyService {
 
@@ -31,12 +33,13 @@ class BasicCompanyService @Autowired constructor(
         val company = companyRepository.findByOwner(currentUser)
             ?: throw IllegalArgumentException("Current user is not admin of the company")
 
-        val userInvite: UserInvite? = userInviteRepository.findByEmailAndCompany(email, company)
+        val userInvite: UserInvite = userInviteRepository.findByEmailAndCompany(email, company)?.let(::processExistingInvite)
+            ?: processNewInvite(email, company)
 
-        if (userInvite != null) processExistingInvite(userInvite) else processNewInvite(email, company)
+        notificationService.notifyUserInvite(userInvite)
     }
 
-    private fun processExistingInvite(userInvite: UserInvite) {
+    private fun processExistingInvite(userInvite: UserInvite): UserInvite {
         val currentTime = LocalDateTime.now()
 
         if (userInvite.expiresAt.isAfter(currentTime)) {
@@ -44,16 +47,13 @@ class BasicCompanyService @Autowired constructor(
             userInviteRepository.save(userInvite)
         }
 
-        // TODO: send email notification
+        return userInvite
     }
 
-    private fun processNewInvite(email: String, company: Company) {
+    private fun processNewInvite(email: String, company: Company): UserInvite {
         val expireDate = LocalDateTime.now().plusDays(1)
         val token = UUID.randomUUID().toString()
 
-        val userInvite = UserInvite(null, company, email, token, expireDate)
-        userInviteRepository.save(userInvite)
-
-        // TODO: send email notification
+        return userInviteRepository.save(UserInvite(null, company, email, token, expireDate))
     }
 }

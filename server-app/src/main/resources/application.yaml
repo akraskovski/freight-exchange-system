@@ -35,6 +35,15 @@ auth:
     admin:
       email: ${auth_admin_email}
       password: ${auth_admin_pass}
+
+email:
+  notification:
+    sender:
+      address: ${email_sender}
+      name: Freight Exchange System Support
+    key:
+      public: ${email_public_key}
+      private: ${email_private_key}
 #################################################################################
 
 ---

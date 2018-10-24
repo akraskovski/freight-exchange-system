@@ -1,0 +1,25 @@
+dependencies {
+    implementation('com.mailjet:mailjet-client:4.1.1')
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+    baseName = 'fes-email-notification-module'
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "src/**/*.kt"
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    classpath = configurations.ktlint
+    args "-F", "src/**/*.kt"
+}
