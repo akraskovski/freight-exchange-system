@@ -12,6 +12,11 @@ import org.springframework.stereotype.Repository
 interface CompanyRepository : JpaRepository<Company, String> {
 
     /**
+     * Find a company by a name.
+     */
+    fun findByName(name: String): Company?
+
+    /**
      * Find a company by a owner.
      */
     fun findByOwner(owner: User): Company?

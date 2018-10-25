@@ -6,6 +6,7 @@ import com.github.akraskovski.fes.core.domain.repository.company.CompanyReposito
 import com.github.akraskovski.fes.core.domain.repository.company.UserInviteRepository
 import com.github.akraskovski.fes.core.domain.service.BasicOperationService
 import com.github.akraskovski.fes.core.domain.service.CommonService
+import com.github.akraskovski.fes.core.domain.service.exception.EntityAlreadyExistsException
 import com.github.akraskovski.fes.core.domain.service.extension.SecurityHelper
 import com.github.akraskovski.fes.core.domain.service.notification.NotificationService
 import com.github.akraskovski.fes.core.domain.service.user.UserService
@@ -26,7 +27,14 @@ class BasicCompanyService @Autowired constructor(
     private val userService: UserService
 ) : CommonService<Company, String> by BasicOperationService(companyRepository), CompanyService {
 
-    override fun create(company: Company, ownerId: String) = save(company.apply { isActive = false; owner = userService.findById(ownerId) })
+    override fun create(company: Company, ownerId: String): Company {
+        companyRepository.findByName(company.name)?.let { throw EntityAlreadyExistsException("Company with name: ${company.name} already exists") }
+
+        val owner = userService.findById(ownerId)
+        companyRepository.findByOwner(owner)?.let { throw EntityAlreadyExistsException("Company with owner: ${owner.firstName} ${owner.lastName} already exists") }
+
+        return save(company.apply { isActive = false; this.owner = owner })
+    }
 
     override fun sendInvite(email: String) {
         val currentUser = securityHelper.getCurrentUser()

@@ -15,7 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices
 
-const val BASE_API_URL = "/api/v1"
+private const val BASE_API_URL = "/api/v1"
 
 /**
  * Configuration this module as an OAuth2.0 Resource Server instance.
@@ -26,7 +26,7 @@ const val BASE_API_URL = "/api/v1"
 class ResourceServerConfig @Autowired constructor(private var authProperties: AuthServerProperties) : ResourceServerConfigurerAdapter() {
 
     @Value("\${resource.id:company_api}")
-    lateinit var resourceId: String
+    private lateinit var resourceId: String
 
     /**
      * {@link RemoteTokenServices} custom configuration for the remote connection to the Authorization Server.
