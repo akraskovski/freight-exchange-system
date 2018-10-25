@@ -9,9 +9,10 @@ import javax.persistence.MappedSuperclass
  * Common domain entity contains unique identifier for documents.
  */
 @MappedSuperclass
-abstract class AbstractEntity(
+abstract class AbstractEntity {
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    var id: String?
-)
+    var id: String? = null
+}

@@ -13,10 +13,9 @@ import javax.persistence.OneToOne
  */
 @Entity(name = "user_details")
 class User(
-    id: String?,
     val authProfileId: String,
     val firstName: String,
     val lastName: String,
     @Enumerated(value = EnumType.STRING) val gender: Gender,
     @OneToOne(cascade = [CascadeType.PERSIST, CascadeType.REMOVE]) val contacts: UserContacts
-) : AbstractEntity(id)
+) : AbstractEntity()

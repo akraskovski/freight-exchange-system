@@ -8,7 +8,6 @@ import javax.persistence.Entity
  */
 @Entity
 class UserContacts(
-    id: String?,
     val email: String,
     val phone: String,
     val skype: String?,
@@ -16,4 +15,4 @@ class UserContacts(
     val linkedIn: String?,
     val telegram: Boolean?,
     val whatsUp: Boolean?
-) : AbstractEntity(id)
+) : AbstractEntity()

@@ -29,6 +29,9 @@ class CompanyController @Autowired constructor(private val companyService: Compa
     fun create(@RequestBody @Valid registerCompany: RegisterCompany): ResponseEntity<IdDto> =
         ResponseEntity.ok(IdDto(companyService.create(registerCompany.toCompany(), registerCompany.ownerId).id!!))
 
+    /**
+     * Sends register invite to the current user company.
+     */
     @PreAuthorize("hasRole('COMPANY_ADMIN')")
     @PostMapping("/invite")
     fun inviteUser(@RequestBody @Valid inviteDto: UserInvite2Company) {

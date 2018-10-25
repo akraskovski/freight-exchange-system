@@ -10,9 +10,8 @@ import javax.persistence.ManyToOne
  */
 @Entity
 class UserInvite(
-    id: String?,
     @ManyToOne val company: Company,
     val email: String,
     val token: String,
     var expiresAt: LocalDateTime
-) : AbstractEntity(id)
+) : AbstractEntity()

@@ -62,6 +62,6 @@ class BasicCompanyService @Autowired constructor(
         val expireDate = LocalDateTime.now().plusDays(1)
         val token = UUID.randomUUID().toString()
 
-        return userInviteRepository.save(UserInvite(null, company, email, token, expireDate))
+        return userInviteRepository.save(UserInvite(company, email, token, expireDate))
     }
 }

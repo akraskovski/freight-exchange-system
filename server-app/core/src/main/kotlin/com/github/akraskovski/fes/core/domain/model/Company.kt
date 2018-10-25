@@ -10,10 +10,9 @@ import javax.persistence.OneToOne
  */
 @Entity
 class Company(
-    id: String?,
     val name: String,
     val description: String,
-    @OneToOne var owner: User?,
+    @OneToOne var owner: User? = null,
     @OneToMany var employees: MutableList<User>,
     var isActive: Boolean?
-) : AbstractEntity(id)
+) : AbstractEntity()

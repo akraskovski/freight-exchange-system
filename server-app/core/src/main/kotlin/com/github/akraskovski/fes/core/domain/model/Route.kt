@@ -1,16 +1,15 @@
 package com.github.akraskovski.fes.core.domain.model
 
 import com.github.akraskovski.fes.core.domain.model.common.AbstractEntity
+import java.time.LocalDateTime
 import javax.persistence.Entity
-import javax.persistence.OneToOne
 
 /**
  * Domain route model.
  */
 @Entity
 class Route(
-    id: String,
     val startPoint: String,
     val endPoint: String,
-    @OneToOne val order: Order
-) : AbstractEntity(id)
+    val deadline: LocalDateTime
+) : AbstractEntity()
