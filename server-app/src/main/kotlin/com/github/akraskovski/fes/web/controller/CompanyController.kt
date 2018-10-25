@@ -25,7 +25,7 @@ class CompanyController @Autowired constructor(private val companyService: Compa
      * Registering a new company account.
      */
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/save")
+    @PostMapping
     fun create(@RequestBody @Valid registerCompany: RegisterCompany): ResponseEntity<IdDto> =
         ResponseEntity.ok(IdDto(companyService.create(registerCompany.toCompany(), registerCompany.ownerId).id!!))
 
