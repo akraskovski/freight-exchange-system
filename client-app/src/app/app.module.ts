@@ -9,6 +9,10 @@ import {MainNavigatorComponent} from './components/main-navigator/main-navigator
 import {MainPageComponent} from './components/main-page/main-page.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {LoginModule} from './modules/login/login.module';
+import {AuthGuard} from './guards/auth.guard';
+import {AuthenticationService} from './services/authentication.service';
+import {HttpClientModule} from '@angular/common/http';
+import {UserService} from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -22,9 +26,14 @@ import {LoginModule} from './modules/login/login.module';
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
+    HttpClientModule,
     LoginModule
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    AuthenticationService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

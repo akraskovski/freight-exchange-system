@@ -6,4 +6,4 @@ import com.github.akraskovski.auth.server.web.controller.dto.UserDetails
 
 fun SignUpUser.toUser(): User = User(email, password, authority)
 
-fun User.toUserDetails(): UserDetails = UserDetails(this.id!!, this.email!!, this.isActive)
+fun User.toUserDetails(): UserDetails = UserDetails(id!!, email!!, isActive, authority!!)

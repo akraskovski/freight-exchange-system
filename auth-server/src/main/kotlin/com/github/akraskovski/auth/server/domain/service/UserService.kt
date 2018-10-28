@@ -29,6 +29,11 @@ interface UserService {
     infix fun getById(id: String): User
 
     /**
+     * Return current loggenIn user or throw exception if there is no authentication.
+     */
+    fun me(): User
+
+    /**
      * Find by email user.
      *
      * @param email the email
