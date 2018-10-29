@@ -11,10 +11,11 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {LoginModule} from './modules/login/login.module';
 import {AuthGuard} from './guards/auth.guard';
 import {AuthenticationService} from './services/authentication.service';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {UserService} from './services/user.service';
 import {AlertComponent} from './components/alert/alert.component';
 import {AlertService} from './services/alert.service';
+import {HttpUnauthorizedInterceptor} from './interceptors/http-unauthorized.interceptor';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {AlertService} from './services/alert.service';
     AuthGuard,
     AuthenticationService,
     UserService,
-    AlertService
+    AlertService,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpUnauthorizedInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
