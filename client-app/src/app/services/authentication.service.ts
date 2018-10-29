@@ -3,7 +3,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {OAUTH_API} from '../variables/oauth';
 import {map} from 'rxjs/operators';
 import {User} from '../models/user';
-import {UserService} from './user.service';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -11,15 +10,17 @@ import {Observable} from 'rxjs';
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient, private userService: UserService) {
+  private readonly CURRENT_USER_KEY: string = 'currentUser';
+
+  constructor(private http: HttpClient) {
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<void> {
     const url = OAUTH_API.SERVER + OAUTH_API.TOKEN_ENDPOINT;
-    const encodedAuth = btoa(OAUTH_API.CLIENT_ID + ':' + OAUTH_API.CLIENT_SECRET);
+    const encodedAuth = btoa(`${OAUTH_API.CLIENT_ID}:${OAUTH_API.CLIENT_SECRET}`);
     const headers = {
       headers: new HttpHeaders({
-        'Authorization': 'Basic ' + encodedAuth,
+        'Authorization': `Basic ${encodedAuth}`,
         'Content-Type': 'application/x-www-form-urlencoded'
       })
     };
@@ -38,20 +39,29 @@ export class AuthenticationService {
           (user: User) => {
             user.token = response.access_token;
             user.refreshToken = response.refresh_token;
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(user));
           }
         );
       }));
   }
 
-  logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+  logout(): void {
+    localStorage.removeItem(this.CURRENT_USER_KEY);
+  }
+
+  isAuthenticated(): boolean {
+    const currentUser = this.getCurrentUser();
+    return !!currentUser && !!currentUser.token;
+  }
+
+  getCurrentUser(): User {
+    return JSON.parse(localStorage.getItem(this.CURRENT_USER_KEY));
   }
 
   private loadDetails(email: string, password: string): Observable<User> {
     const url = OAUTH_API.SERVER + OAUTH_API.ME_ENDPOINT;
-    const headers = {headers: new HttpHeaders({'Authorization': 'Basic ' + btoa(email + ':' + password)})};
+    const encodedAuth = btoa(`${email}:${password}`);
+    const headers = {headers: new HttpHeaders({'Authorization': `Basic ${encodedAuth}`})};
 
     return this.http.get<any>(url, headers)
       .pipe(map(response => {

@@ -1,9 +1,8 @@
 <app-header></app-header>
 
-<!--TODO make it visible on for loggedIn users-->
-<div>
+<ng-container *ngIf="authService.isAuthenticated()">
   <app-main-navigator></app-main-navigator>
-</div>
+</ng-container>
 
 <app-alert></app-alert>
 <router-outlet></router-outlet>
