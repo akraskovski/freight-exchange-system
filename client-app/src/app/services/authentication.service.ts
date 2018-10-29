@@ -36,8 +36,8 @@ export class AuthenticationService {
 
         this.loadDetails(email, password).subscribe(
           (user: User) => {
-            user.token = JSON.stringify(response.access_token);
-            user.refreshToken = JSON.stringify(response.refresh_token);
+            user.token = response.access_token;
+            user.refreshToken = response.refresh_token;
             localStorage.setItem('currentUser', JSON.stringify(user));
           }
         );

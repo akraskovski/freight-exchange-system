@@ -31,6 +31,8 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
+    this.authenticationService.logout();
+
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
