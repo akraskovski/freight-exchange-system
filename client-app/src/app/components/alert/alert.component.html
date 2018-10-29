@@ -1,0 +1,7 @@
+<div *ngIf="message">
+  <div class="notification"
+       [ngClass]="{ 'is-primary': message.type === 'success', 'is-warning': message.type === 'warning', 'is-danger': message.type === 'error' }">
+    <button (click)="close()" class="delete"></button>
+    <p>{{message.text}}</p>
+  </div>
+</div>

@@ -13,6 +13,8 @@ import {AuthGuard} from './guards/auth.guard';
 import {AuthenticationService} from './services/authentication.service';
 import {HttpClientModule} from '@angular/common/http';
 import {UserService} from './services/user.service';
+import {AlertComponent} from './components/alert/alert.component';
+import {AlertService} from './services/alert.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import {UserService} from './services/user.service';
     HeaderComponent,
     FooterComponent,
     MainNavigatorComponent,
-    MainPageComponent
+    MainPageComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import {UserService} from './services/user.service';
   providers: [
     AuthGuard,
     AuthenticationService,
-    UserService
+    UserService,
+    AlertService
   ],
   bootstrap: [AppComponent]
 })
