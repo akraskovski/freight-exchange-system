@@ -6,6 +6,7 @@ import {UserService} from '../../../../services/user.service';
 import {AlertService} from '../../../../services/alert.service';
 import {Gender} from '../../../../models/gender.enum';
 import {PasswordValidation} from '../../../../helpers/password-validator';
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-user-register',
@@ -49,25 +50,21 @@ export class UserRegisterComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
 
     this.loading = true;
-    console.log(this.registerForm.value);
-    this.loading = false;
-// this.userService.register(this.registerForm.value)
-//   .pipe(first())
-//   .subscribe(
-//     data => {
-//       this.alertService.success('Registration successful', true);
-//       this.router.navigate(['/login']);
-//     },
-//     error => {
-//       this.alertService.error(error);
-//       this.loading = false;
-//     });
-
+    this.userService.register(this.registerForm.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.alertService.success('Registration successful', true);
+          this.router.navigate(['/login']);
+        },
+        error => {
+          this.alertService.error(error);
+          this.loading = false;
+        });
   }
 }

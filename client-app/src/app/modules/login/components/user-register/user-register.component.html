@@ -93,11 +93,6 @@
           <div class="control">
             <input type="password" formControlName="password" class="input"
                    [ngClass]="{ 'is-danger': submitted && form.password.errors }"/>
-            <!--TODO: test without submitted-->
-            <div *ngIf="submitted && form.password.errors" class="invalid-feedback">
-              <div *ngIf="form.password.errors.required">Password is required</div>
-              <div *ngIf="form.password.errors.minlength">Password must be at least 6 characters</div>
-            </div>
           </div>
         </div>
       </div>
