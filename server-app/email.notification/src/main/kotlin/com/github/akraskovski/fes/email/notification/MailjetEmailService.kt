@@ -18,16 +18,16 @@ import org.springframework.stereotype.Service
 @Service
 class MailjetEmailService : EmailService {
 
-    @Value("\${email.notification.sender.address}")
+    @Value("\${email.notification.sender.address:support@fes.com}")
     private lateinit var senderEmail: String
 
     @Value("\${email.notification.sender.name:Freight Exchange System Support}")
     private lateinit var senderName: String
 
-    @Value("\${email.notification.key.public}")
+    @Value("\${email.notification.key.public:}")
     private lateinit var publicKey: String
 
-    @Value("\${email.notification.key.private}")
+    @Value("\${email.notification.key.private:}")
     private lateinit var privateKey: String
 
     private val client: MailjetClient by lazy { MailjetClient(publicKey, privateKey, ClientOptions("v3.1")) }
