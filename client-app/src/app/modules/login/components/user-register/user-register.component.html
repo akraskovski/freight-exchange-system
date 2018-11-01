@@ -1,3 +1,108 @@
-<p>
-  user-register works!
-</p>
+<div class="section">
+  <div class="container is-widescreen">
+    <div class="notification has-text-centered">
+      Welcome to Freight Exchange System. Please, fill all of the required field to create your account.
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <div class="field">
+        <label class="label">First Name</label>
+        <div class="control has-icons-left has-icons-right">
+          <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+          <input type="text" formControlName="firstName" class="input"
+                 [ngClass]="{ 'is-danger': submitted && f.firstName.errors, 'is-success': f.firstName.valid }"/>
+          <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"
+                                                  *ngIf="submitted && f.firstName.errors"></i></span>
+        </div>
+      </div>
+
+      <!--TODO: continue validation fields from here-->
+      <div class="field">
+        <label class="label">Last name</label>
+        <div class="control has-icons-left has-icons-right">
+          <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+          <input type="text" formControlName="lastName" class="form-control input is-success"
+                 [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"/>
+          <span class="icon is-small is-right"><i class="fas fa-check"></i></span>
+        </div>
+      </div>
+
+      <div class="form-group field">
+        <label class="label">Email</label>
+        <div class="control has-icons-left has-icons-right">
+          <input type="email" formControlName="email" class="form-control input"
+                 placeholder="Email input" [ngClass]="{ 'is-danger': submitted && f.email.errors }"/>
+          <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+          <span *ngIf="submitted && f.email.errors" class="icon is-small is-right"><i
+            class="fas fa-exclamation-triangle"></i></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Gender</label>
+        <div class="control">
+          <div class="select">
+            <select>
+              <option>Select dropdown</option>
+              <option>With options</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group field">
+        <label class="label">Phone</label>
+        <div class="control has-icons-left has-icons-right">
+          <input type="tel" formControlName="phone" class="form-control input is-danger"
+                 placeholder="Phone number" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"/>
+          <span class="icon is-small is-left"><i class="fas fa-phone"></i></span>
+          <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"></i></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" formControlName="password" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+          <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="password">Repeat Password</label>
+        <input type="password" formControlName="passwordRepeat" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && f.passwordRepeat.errors }"/>
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+          <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+        </div>
+      </div>
+
+      <div class="form-group field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox">
+            I agree to the <a href="#">terms and conditions</a>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group field is-grouped">
+        <div class="control">
+          <button [disabled]="loading || registerForm.invalid" class="button is-primary">Register</button>
+          <img *ngIf="loading"
+               src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+        </div>
+        <div class="control">
+          <a [routerLink]="['/login']" class="button is-text">Cancel</a>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>
