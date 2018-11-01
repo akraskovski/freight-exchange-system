@@ -1,85 +1,123 @@
-<div class="section">
-  <div class="container is-widescreen">
+<section class="section">
+  <div class="container">
     <div class="notification has-text-centered">
       Welcome to Freight Exchange System. Please, fill all of the required field to create your account.
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-      <div class="field">
-        <label class="label">First Name</label>
-        <div class="control has-icons-left has-icons-right">
-          <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
-          <input type="text" formControlName="firstName" class="input"
-                 [ngClass]="{ 'is-danger': submitted && f.firstName.errors, 'is-success': f.firstName.valid }"/>
-          <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"
-                                                  *ngIf="submitted && f.firstName.errors"></i></span>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">First Name</label>
         </div>
-      </div>
-
-      <!--TODO: continue validation fields from here-->
-      <div class="field">
-        <label class="label">Last name</label>
-        <div class="control has-icons-left has-icons-right">
-          <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
-          <input type="text" formControlName="lastName" class="form-control input is-success"
-                 [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"/>
-          <span class="icon is-small is-right"><i class="fas fa-check"></i></span>
-        </div>
-      </div>
-
-      <div class="form-group field">
-        <label class="label">Email</label>
-        <div class="control has-icons-left has-icons-right">
-          <input type="email" formControlName="email" class="form-control input"
-                 placeholder="Email input" [ngClass]="{ 'is-danger': submitted && f.email.errors }"/>
-          <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
-          <span *ngIf="submitted && f.email.errors" class="icon is-small is-right"><i
-            class="fas fa-exclamation-triangle"></i></span>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Gender</label>
-        <div class="control">
-          <div class="select">
-            <select>
-              <option>Select dropdown</option>
-              <option>With options</option>
-            </select>
+        <div class="field-body">
+          <div class="control is-expanded has-icons-left has-icons-right">
+            <input type="text" formControlName="firstName" class="input"
+                   [ngClass]="{ 'is-danger': submitted && form.firstName.errors, 'is-success': form.firstName.valid }"/>
+            <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+            <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"
+                                                    *ngIf="submitted && form.firstName.errors"></i></span>
           </div>
         </div>
       </div>
 
-      <div class="form-group field">
-        <label class="label">Phone</label>
-        <div class="control has-icons-left has-icons-right">
-          <input type="tel" formControlName="phone" class="form-control input is-danger"
-                 placeholder="Phone number" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"/>
-          <span class="icon is-small is-left"><i class="fas fa-phone"></i></span>
-          <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"></i></span>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Last Name</label>
+        </div>
+        <div class="field-body">
+          <div class="control has-icons-left has-icons-right">
+            <input type="text" formControlName="lastName" class="input"
+                   [ngClass]="{ 'is-danger': submitted && form.lastName.errors, 'is-success': form.lastName.valid }"/>
+            <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+            <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"
+                                                    *ngIf="submitted && form.lastName.errors"></i></span>
+          </div>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control"
-               [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">Password is required</div>
-          <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Email</label>
+        </div>
+        <div class="field-body">
+          <div class="control has-icons-left has-icons-right">
+            <input type="email" formControlName="email" class="input"
+                   [ngClass]="{ 'is-danger': submitted && form.email.errors, 'is-success': form.email.valid }"/>
+            <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+            <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"
+                                                    *ngIf="submitted && form.email.errors"></i></span>
+          </div>
         </div>
       </div>
 
-
-      <div class="form-group">
-        <label for="password">Repeat Password</label>
-        <input type="password" formControlName="passwordRepeat" class="form-control"
-               [ngClass]="{ 'is-invalid': submitted && f.passwordRepeat.errors }"/>
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">Password is required</div>
-          <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Gender</label>
         </div>
+        <div class="field-body">
+          <div class="control has-icons-left">
+            <div class="select">
+              <select formControlName="gender">
+                <option *ngFor="let item of genders" [ngValue]="item">{{item}}</option>
+              </select>
+            </div>
+            <div class="icon is-small is-left">
+              <i class="fas fa-transgender"></i>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Phone</label>
+        </div>
+        <div class="field-body">
+          <div class="control has-icons-left has-icons-right">
+            <input type="tel" formControlName="phone" class="input"
+                   placeholder="Phone number" [ngClass]="{ 'is-danger': form.phone.errors || !form.phone.valid}"/>
+            <span class="icon is-small is-left"><i class="fas fa-phone"></i></span>
+            <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"
+                                                    *ngIf="submitted && form.phone.errors"></i></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Password</label>
+        </div>
+        <div class="field-body">
+          <div class="control">
+            <input type="password" formControlName="password" class="input"
+                   [ngClass]="{ 'is-danger': submitted && form.password.errors }"/>
+            <!--TODO: test without submitted-->
+            <div *ngIf="submitted && form.password.errors" class="invalid-feedback">
+              <div *ngIf="form.password.errors.required">Password is required</div>
+              <div *ngIf="form.password.errors.minlength">Password must be at least 6 characters</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Repeat</label>
+        </div>
+        <div class="field-body">
+          <div class="control">
+            <input type="password" formControlName="passwordRepeat" class="input"
+                   [ngClass]="{ 'is-danger': submitted && form.password.errors }"/>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="form.passwordRepeat.errors">
+        <div class="notification is-danger" *ngIf="form.passwordRepeat.errors?.minlength">Password must be at least 6
+          characters
+        </div>
+        <div class="notification is-danger" *ngIf="form.passwordRepeat.errors?.matchPassword">Password not match</div>
       </div>
 
       <div class="form-group field">
@@ -105,4 +143,4 @@
     </form>
 
   </div>
-</div>
+</section>

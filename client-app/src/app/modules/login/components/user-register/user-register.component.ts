@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../../../../services/authentication.service";
-import {UserService} from "../../../../services/user.service";
-import {AlertService} from "../../../../services/alert.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../../../../services/authentication.service';
+import {UserService} from '../../../../services/user.service';
+import {AlertService} from '../../../../services/alert.service';
+import {Gender} from '../../../../models/gender.enum';
+import {PasswordValidation} from '../../../../helpers/password-validator';
 
 @Component({
   selector: 'app-user-register',
@@ -12,8 +14,9 @@ import {AlertService} from "../../../../services/alert.service";
 })
 export class UserRegisterComponent implements OnInit {
   registerForm: FormGroup;
-  loading = false;
-  submitted = false;
+  loading: boolean = false;
+  submitted: boolean = false;
+  genders: string[] = Object.keys(Gender).filter(k => typeof Gender[k as any] === 'number');
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -32,13 +35,14 @@ export class UserRegisterComponent implements OnInit {
       passwordRepeat: ['', [Validators.required, Validators.minLength(8)]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      gender: [''],
-      phone: ['']
+      gender: [Gender.UNKNOWN, Validators.required],
+      phone: ['', Validators.pattern('^([()\\- x+]*\\d[()\\- x+]*){4,16}$')]
+    }, {
+      validator: PasswordValidation.matchPassword
     });
   }
 
-  // convenience getter for easy access to form fields
-  get f() {
+  get form() {
     return this.registerForm.controls;
   }
 
@@ -51,18 +55,19 @@ export class UserRegisterComponent implements OnInit {
     }
 
     this.loading = true;
-    console.log(this.registerForm.value)
+    console.log(this.registerForm.value);
     this.loading = false;
-    // this.userService.register(this.registerForm.value)
-    //   .pipe(first())
-    //   .subscribe(
-    //     data => {
-    //       this.alertService.success('Registration successful', true);
-    //       this.router.navigate(['/login']);
-    //     },
-    //     error => {
-    //       this.alertService.error(error);
-    //       this.loading = false;
-    //     });
+// this.userService.register(this.registerForm.value)
+//   .pipe(first())
+//   .subscribe(
+//     data => {
+//       this.alertService.success('Registration successful', true);
+//       this.router.navigate(['/login']);
+//     },
+//     error => {
+//       this.alertService.error(error);
+//       this.loading = false;
+//     });
+
   }
 }
