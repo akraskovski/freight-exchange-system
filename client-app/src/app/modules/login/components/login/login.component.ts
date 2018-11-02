@@ -59,17 +59,18 @@ export class LoginComponent implements OnInit {
     return (errorResponse: HttpErrorResponse) => {
       this.loading = false;
       const error = errorResponse.error;
+      let message: string;
 
       if (errorResponse.error instanceof ErrorEvent) {
-        this.alertService.error('An error occurred:' + errorResponse.error.message);
+        message = 'An error occurred:' + errorResponse.error.message;
       } else if (error.error_description) {
-        this.alertService.error(error.error_description);
+        message = error.error_description;
       } else {
-        const message = `Backend returned code ${errorResponse.status}, ` + `body was: ${errorResponse.error}`;
-        this.alertService.error(message);
+        message = `Backend returned code ${errorResponse.status}, ` + `body was: ${errorResponse.error}`;
       }
 
-      return throwError('Something bad happened; please try again later.');
+      this.alertService.error(message);
+      return throwError(message);
     };
   }
 }
