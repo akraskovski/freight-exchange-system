@@ -11,8 +11,8 @@
       <a routerLink="/login" class="button is-info">Sign In</a>
     </div>
     <div *ngIf="authService.isAuthenticated()" class="navbar-item">
-      <!--TODO: change to user first and last name-->
-      <p>Welcome, {{currentUser.email}}</p>
+      <!--TODO: change to user first and last name and link to the profile-->
+      <p>Welcome, {{currentUser.firstName}} {{currentUser.lastName}}</p>
       <a (click)="logout()" class="button is-info">Log Out</a>
     </div>
   </div>
