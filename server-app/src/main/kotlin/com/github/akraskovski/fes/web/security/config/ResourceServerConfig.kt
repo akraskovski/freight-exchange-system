@@ -51,6 +51,7 @@ class ResourceServerConfig @Autowired constructor(private var authProperties: Au
     override fun configure(http: HttpSecurity) {
         http.antMatcher("$BASE_API_URL/**")
             .authorizeRequests()
+            .antMatchers(HttpMethod.POST, "$BASE_API_URL/user/account/register").permitAll()
             .antMatchers(HttpMethod.GET, "$BASE_API_URL/**").access("#oauth2.hasScope('read')")
             .antMatchers(HttpMethod.POST, "$BASE_API_URL/**").access("#oauth2.hasScope('write')")
             .antMatchers(HttpMethod.PUT, "$BASE_API_URL/**").access("#oauth2.hasScope('write')")

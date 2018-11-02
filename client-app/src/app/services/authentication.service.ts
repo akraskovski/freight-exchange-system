@@ -31,10 +31,6 @@ export class AuthenticationService {
 
     return this.http.post<any>(url, body.toString(), headers)
       .pipe(map(response => {
-        if (!response || !response.access_token) {
-          Observable.throw('Invalid username or password');
-        }
-
         this.loadDetails(email, password).subscribe(
           (user: User) => {
             user.token = response.access_token;

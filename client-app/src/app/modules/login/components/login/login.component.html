@@ -80,6 +80,7 @@
               euismod lacinia at quis risus. Faucibus turpis in eu mi bibendum neque egestas cmonsu songue. Phasellus
               vestibulum lorem
               sed risus.</p>
+            <!--TODO: implement company registration-->
             <p><a routerLink="/company-register">Register</a></p>
           </div>
         </div>
@@ -100,7 +101,7 @@
             <p>Purus semper eget duis at tellus at urna condimentum mattis. Non blandit massa enim nec. Integer enim
               neque volutpat ac tincidunt vitae semper quis. Accumsan tortor posuere ac ut consequat semper viverra
               nam.</p>
-            <p><a routerLink="/user-register">Register</a></p>
+            <p><a [routerLink]="['/user-register', AUTHORITIES.ROLE_CLIENT]">Register</a></p>
           </div>
         </div>
       </div>
@@ -121,7 +122,7 @@
               euismod lacinia at quis risus. Faucibus turpis in eu mi bibendum neque egestas cmonsu songue. Phasellus
               vestibulum lorem
               sed risus.</p>
-            <p><a routerLink="/user-register">Register</a></p>
+            <p><a [routerLink]="['/user-register', AUTHORITIES.ROLE_CARRIER]">Register</a></p>
           </div>
         </div>
       </div>
@@ -141,7 +142,7 @@
               dignissim
               enim. Libero id faucibus nisl tincidunt eget nullam. Commodo viverra maecenas accumsan lacus vel
               facilisis.</p>
-            <p><a routerLink="/user-register">Register</a></p>
+            <p><a [routerLink]="['/user-register', AUTHORITIES.ROLE_FORWARDER]">Register</a></p>
           </div>
         </div>
       </div>

@@ -1,26 +1,32 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../../services/authentication.service';
 import {UserService} from '../../../../services/user.service';
 import {AlertService} from '../../../../services/alert.service';
 import {Gender} from '../../../../models/gender.enum';
 import {PasswordValidation} from '../../../../helpers/password-validator';
 import {first} from "rxjs/operators";
+import {Authority} from "../../../../models/authority.enum";
+import {SignUpUser} from "../../../../models/dto/sign-up-user";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-user-register',
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.css']
 })
-export class UserRegisterComponent implements OnInit {
+export class UserRegisterComponent implements OnInit, OnDestroy {
   registerForm: FormGroup;
   loading: boolean = false;
   submitted: boolean = false;
   genders: string[] = Object.keys(Gender).filter(k => typeof Gender[k as any] === 'number');
+  authoritySubscription: Subscription;
+  authority: Authority;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
+              private route: ActivatedRoute,
               private authenticationService: AuthenticationService,
               private userService: UserService,
               private alertService: AlertService) {
@@ -41,6 +47,12 @@ export class UserRegisterComponent implements OnInit {
     }, {
       validator: PasswordValidation.matchPassword
     });
+
+    this.authoritySubscription = this.route.params.subscribe(params => this.authority = params['role']);
+  }
+
+  ngOnDestroy() {
+    this.authoritySubscription.unsubscribe();
   }
 
   get form() {
@@ -54,8 +66,10 @@ export class UserRegisterComponent implements OnInit {
       return;
     }
 
+    const user: SignUpUser = this.registerForm.value;
+    user.authority = this.authority;
     this.loading = true;
-    this.userService.register(this.registerForm.value)
+    this.userService.register(user)
       .pipe(first())
       .subscribe(
         data => {

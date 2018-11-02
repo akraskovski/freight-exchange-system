@@ -2,9 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../../services/authentication.service';
-import {first} from 'rxjs/operators';
+import {catchError, first} from 'rxjs/operators';
 import {AlertService} from '../../../../services/alert.service';
-import {HttpErrorResponse} from '@angular/common/http';
+import {Authority} from "../../../../models/authority.enum";
+import {Observable, of, throwError} from "rxjs";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,7 @@ import {HttpErrorResponse} from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  AUTHORITIES: typeof Authority = Authority;
   loginForm: FormGroup;
   loading = false;
   submitted = false;
@@ -32,7 +34,6 @@ export class LoginComponent implements OnInit {
     });
 
     this.authenticationService.logout();
-
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
@@ -42,23 +43,33 @@ export class LoginComponent implements OnInit {
 
   signIn() {
     this.submitted = true;
-
     if (this.loginForm.invalid) {
       return;
     }
 
     this.loading = true;
-
     this.authenticationService.login(this.f.email.value, this.f.password.value)
       .pipe(first())
-      .subscribe(
-        () => {
-          this.router.navigate([this.returnUrl]);
-        },
-        (response: HttpErrorResponse) => {
-          this.alertService.error(response.error.error_description);
-          this.loading = false;
-        });
+      .pipe(catchError(this.handleError()))
+      .subscribe(() => this.router.navigate([this.returnUrl]));
   }
 
+
+  private handleError() {
+    return (errorResponse: HttpErrorResponse) => {
+      this.loading = false;
+      const error = errorResponse.error;
+
+      if (errorResponse.error instanceof ErrorEvent) {
+        this.alertService.error('An error occurred:' + errorResponse.error.message);
+      } else if (error.error_description) {
+        this.alertService.error(error.error_description);
+      } else {
+        const message = `Backend returned code ${errorResponse.status}, ` + `body was: ${errorResponse.error}`;
+        this.alertService.error(message);
+      }
+
+      return throwError('Something bad happened; please try again later.');
+    };
+  }
 }
