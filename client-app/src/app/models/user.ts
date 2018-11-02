@@ -7,4 +7,6 @@ export class User {
   isActive: boolean;
   token: string;
   refreshToken: string;
+  firstName: string;
+  lastName: string;
 }

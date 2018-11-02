@@ -3,16 +3,24 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {OAUTH_API} from '../variables/oauth';
 import {map} from 'rxjs/operators';
 import {User} from '../models/user';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  private readonly CURRENT_USER_KEY: string = 'currentUser';
+  public readonly CURRENT_USER_KEY: string = 'currentUser';
+  public currentUser: Observable<User>;
+  private currentUserSubject: BehaviorSubject<User>;
 
   constructor(private http: HttpClient) {
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem(this.CURRENT_USER_KEY)));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value;
   }
 
   login(email: string, password: string): Observable<void> {
@@ -31,11 +39,11 @@ export class AuthenticationService {
 
     return this.http.post<any>(url, body.toString(), headers)
       .pipe(map(response => {
-        this.loadDetails(email, password).subscribe(
-          (user: User) => {
+        this.loadDetails(email, password).subscribe((user: User) => {
             user.token = response.access_token;
             user.refreshToken = response.refresh_token;
             localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(user));
+            this.currentUserSubject.next(user);
           }
         );
       }));
@@ -43,15 +51,12 @@ export class AuthenticationService {
 
   logout(): void {
     localStorage.removeItem(this.CURRENT_USER_KEY);
+    this.currentUserSubject.next(null);
   }
 
   isAuthenticated(): boolean {
-    const currentUser = this.getCurrentUser();
+    const currentUser = this.currentUserValue;
     return !!currentUser && !!currentUser.token;
-  }
-
-  getCurrentUser(): User {
-    return JSON.parse(localStorage.getItem(this.CURRENT_USER_KEY));
   }
 
   private loadDetails(email: string, password: string): Observable<User> {

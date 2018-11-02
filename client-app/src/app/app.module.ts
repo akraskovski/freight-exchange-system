@@ -16,6 +16,7 @@ import {UserService} from './services/user.service';
 import {AlertComponent} from './components/alert/alert.component';
 import {AlertService} from './services/alert.service';
 import {HttpUnauthorizedInterceptor} from './interceptors/http-unauthorized.interceptor';
+import {AdministrateModule} from './modules/administrate/administrate.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {HttpUnauthorizedInterceptor} from './interceptors/http-unauthorized.inte
     AppRoutingModule,
     FontAwesomeModule,
     HttpClientModule,
-    LoginModule
+    LoginModule,
+    AdministrateModule
   ],
   providers: [
     AuthGuard,

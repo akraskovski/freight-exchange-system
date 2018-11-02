@@ -30,7 +30,7 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
               private authenticationService: AuthenticationService,
               private userService: UserService,
               private alertService: AlertService) {
-    if (this.authenticationService.getCurrentUser()) {
+    if (this.authenticationService.isAuthenticated()) {
       this.router.navigate(['/']);
     }
   }
