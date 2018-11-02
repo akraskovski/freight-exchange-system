@@ -9,6 +9,13 @@ import {MainNavigatorComponent} from './components/main-navigator/main-navigator
 import {MainPageComponent} from './components/main-page/main-page.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {LoginModule} from './modules/login/login.module';
+import {AuthGuard} from './guards/auth.guard';
+import {AuthenticationService} from './services/authentication.service';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {UserService} from './services/user.service';
+import {AlertComponent} from './components/alert/alert.component';
+import {AlertService} from './services/alert.service';
+import {HttpUnauthorizedInterceptor} from './interceptors/http-unauthorized.interceptor';
 
 @NgModule({
   declarations: [
@@ -16,15 +23,23 @@ import {LoginModule} from './modules/login/login.module';
     HeaderComponent,
     FooterComponent,
     MainNavigatorComponent,
-    MainPageComponent
+    MainPageComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
+    HttpClientModule,
     LoginModule
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    AuthenticationService,
+    UserService,
+    AlertService,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpUnauthorizedInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,4 +1,4 @@
-package com.github.akraskovski.auth.server.domain.service;
+package com.github.akraskovski.auth.server.domain.service
 
 import com.github.akraskovski.auth.server.domain.model.Authority
 import com.github.akraskovski.auth.server.domain.model.User
@@ -7,6 +7,7 @@ import com.github.akraskovski.auth.server.domain.service.exception.EntityNotFoun
 import com.github.akraskovski.auth.server.domain.service.exception.PermissionDeniedException
 import com.github.akraskovski.auth.server.domain.service.exception.UserAlreadyExistsException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -39,6 +40,12 @@ class BasicUserService @Autowired constructor(val userRepository: UserRepository
     }
 
     override infix fun getById(id: String): User = userRepository.findById(id).orElseThrow { EntityNotFoundException("Cannot find user by id: $id") }
+
+    override fun me(): User {
+        val authenticationUser = SecurityContextHolder.getContext().authentication.principal as org.springframework.security.core.userdetails.User
+        return userRepository.findByEmail(authenticationUser.username)
+                ?: throw EntityNotFoundException("Cannot establish current authenticated user")
+    }
 
     override infix fun findByEmail(email: String): User? = userRepository.findByEmail(email)
 

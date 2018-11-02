@@ -1,3 +1,151 @@
-<p>
-  login works!
-</p>
+<section class="hero is-medium">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <div class="column is-4 is-offset-4">
+        <div class="box">
+          <form [formGroup]="loginForm" (ngSubmit)="signIn()">
+            <div class="field">
+              <div class="control">
+                <input type="email" formControlName="email" class="input is-large" placeholder="Your Email"
+                       autofocus="" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" email>
+              </div>
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required && !f.email.errors?.pattern">Email is required</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <input type="password" formControlName="password" class="input is-large" placeholder="Your Password"
+                       [ngClass]="{ 'is-invalid': submitted && f.password.errors }" minlength="5">
+              </div>
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+              </div>
+            </div>
+
+            <!--TODO implement remember functionality-->
+            <div class="field">
+              <label class="checkbox">
+                <input type="checkbox">
+                Remember me
+              </label>
+            </div>
+            <button [disabled]="loginForm.invalid" class="button is-block is-info is-large is-fullwidth">Login</button>
+            <img *ngIf="loading"
+                 src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+          </form>
+        </div>
+        <p class="has-text-grey">
+          <!--TODO create components api for forgot password and need help static page-->
+          <a href="../">Forgot Password</a> &nbsp;·&nbsp;
+          <a href="../">Need Help?</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-info is-medium is-bold">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        Don't have an account? Register it for free.
+      </h1>
+      <h2 class="subtitle">
+        Who are you?
+        Client, Company owner, Carrier or forwarder? Please, choose your account type ang go to the next registration
+        steps.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="columns features">
+
+    <div class="column is-3">
+      <div class="card is-shady">
+        <div class="card-image has-text-centered">
+          <!--TODO add image-->
+          <figure class="image">
+            <img src="assets/img/user-register-image.jpg" alt="Placeholder image">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="content">
+            <h4>Company owner</h4>
+            <p>Ut venenatis tellus in metus vulputate. Amet consectetur adipiscing elit pellentesque. Sed arcu non
+              odio
+              euismod lacinia at quis risus. Faucibus turpis in eu mi bibendum neque egestas cmonsu songue. Phasellus
+              vestibulum lorem
+              sed risus.</p>
+            <!--TODO: implement company registration-->
+            <p><a routerLink="/company-register">Register</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-3">
+      <div class="card is-shady">
+        <div class="card-image has-text-centered">
+          <!--TODO add image-->
+          <figure class="image">
+            <img src="assets/img/user-register-image.jpg" alt="Placeholder image">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="content">
+            <h4>Client</h4>
+            <p>Purus semper eget duis at tellus at urna condimentum mattis. Non blandit massa enim nec. Integer enim
+              neque volutpat ac tincidunt vitae semper quis. Accumsan tortor posuere ac ut consequat semper viverra
+              nam.</p>
+            <p><a [routerLink]="['/user-register', AUTHORITIES.ROLE_CLIENT]">Register</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column is-3">
+      <div class="card is-shady">
+        <div class="card-image has-text-centered">
+          <!--TODO add image-->
+          <figure class="image">
+            <img src="assets/img/user-register-image.jpg" alt="Placeholder image">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="content">
+            <h4>Carrier</h4>
+            <p>Ut venenatis tellus in metus vulputate. Amet consectetur adipiscing elit pellentesque. Sed arcu non
+              odio
+              euismod lacinia at quis risus. Faucibus turpis in eu mi bibendum neque egestas cmonsu songue. Phasellus
+              vestibulum lorem
+              sed risus.</p>
+            <p><a [routerLink]="['/user-register', AUTHORITIES.ROLE_CARRIER]">Register</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column is-3">
+      <div class="card is-shady">
+        <div class="card-image has-text-centered">
+          <!--TODO add image-->
+          <figure class="image">
+            <img src="assets/img/user-register-image.jpg" alt="Placeholder image">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="content">
+            <h4>Forwarder</h4>
+            <p>Imperdiet dui accumsan sit amet nulla facilisi morbi. Fusce ut placerat orci nulla pellentesque
+              dignissim
+              enim. Libero id faucibus nisl tincidunt eget nullam. Commodo viverra maecenas accumsan lacus vel
+              facilisis.</p>
+            <p><a [routerLink]="['/user-register', AUTHORITIES.ROLE_FORWARDER]">Register</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

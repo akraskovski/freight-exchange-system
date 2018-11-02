@@ -21,7 +21,6 @@ import javax.validation.Valid
 /**
  * The type User controller.
  */
-@Secured("ROLE_ADMIN")
 @RestController
 @RequestMapping("/user")
 class UserController @Autowired constructor(val userService: UserService) {
@@ -32,12 +31,14 @@ class UserController @Autowired constructor(val userService: UserService) {
      * @param signUpUser the sign up user
      * @return the response entity
      */
+    @Secured("ROLE_ADMIN")
     @PostMapping("/sign-up")
     fun signUp(@RequestBody @Valid signUpUser: SignUpUser): ResponseEntity<IdDto> = ResponseEntity.ok(IdDto((userService signUp signUpUser.toUser()).id!!))
 
     /**
      * Active or deactivate user account depends on the current account state.
      */
+    @Secured("ROLE_ADMIN")
     @PutMapping("/{userId}/activate")
     fun activateAccount(@PathVariable userId: String) {
         userService.activateAccount(userId)
@@ -48,5 +49,11 @@ class UserController @Autowired constructor(val userService: UserService) {
      */
     @GetMapping("/{userId}")
     fun getDetails(@PathVariable userId: String): ResponseEntity<UserDetails> = ResponseEntity.ok(userService.getById(userId).toUserDetails())
+
+    /**
+     * Loading current loggedIn user details.
+     */
+    @GetMapping("/me")
+    fun me(): ResponseEntity<UserDetails> = ResponseEntity.ok(userService.me().toUserDetails())
 }
 

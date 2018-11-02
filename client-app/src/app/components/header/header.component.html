@@ -1,4 +1,4 @@
-<nav class="navbar is-dark">
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
 
   <div class="navbar-brand">
     <a routerLink="/" class="navbar-item">
@@ -6,11 +6,12 @@
     </a>
   </div>
 
-  <div class="navbar-menu">
-    <div class="navbar-end">
-      <div class="navbar-item">
-        <a routerLink="/login" class="button is-info">Sign In</a>
-      </div>
+  <div class="navbar-end">
+    <div *ngIf="!authService.isAuthenticated()" class="navbar-item">
+      <a routerLink="/login" class="button is-info">Sign In</a>
+    </div>
+    <div *ngIf="authService.isAuthenticated()" class="navbar-item">
+      <a (click)="logout()" class="button is-info">Log Out</a>
     </div>
   </div>
 </nav>

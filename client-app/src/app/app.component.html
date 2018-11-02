@@ -1,6 +1,10 @@
 <app-header></app-header>
-<app-main-navigator></app-main-navigator>
 
+<ng-container *ngIf="authService.isAuthenticated()">
+  <app-main-navigator></app-main-navigator>
+</ng-container>
+
+<app-alert></app-alert>
 <router-outlet></router-outlet>
 
 <app-footer></app-footer>
