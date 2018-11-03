@@ -12,7 +12,7 @@
     </div>
     <div *ngIf="authService.isAuthenticated()" class="navbar-item">
       <!--TODO: change to user first and last name and link to the profile-->
-      <p>Welcome, {{currentUser.firstName}} {{currentUser.lastName}}</p>
+      <p style="margin-right: 10px">Welcome, {{currentUser.firstName}} {{currentUser.lastName}}</p>
       <a (click)="logout()" class="button is-info">Log Out</a>
     </div>
   </div>
