@@ -49,7 +49,14 @@ class UserController @Autowired constructor(val userService: UserService) {
      */
     @Secured("ROLE_ADMIN")
     @GetMapping("/{userId}")
-    fun getDetails(@PathVariable userId: String): ResponseEntity<UserDetails> = ResponseEntity.ok(userService.getById(userId).toUserDetails())
+    fun getDetailsById(@PathVariable userId: String): ResponseEntity<UserDetails> = ResponseEntity.ok(userService.getById(userId).toUserDetails())
+
+    /**
+     * Loading user details by a given id.
+     */
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/email/{email}")
+    fun getDetailsByEmail(@PathVariable email: String): ResponseEntity<UserDetails> = ResponseEntity.ok(userService.getByEmail(email).toUserDetails())
 
     /**
      * Loading current loggedIn user details.

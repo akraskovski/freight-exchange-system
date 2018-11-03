@@ -8,9 +8,14 @@ import com.github.akraskovski.fes.core.domain.model.AuthServerUser
 interface AuthorizationRepository {
 
     /**
-     * Get's authorization server user model by a given identifier.
+     * Finds authorization server user model by a given identifier.
      */
-    fun getById(authServerId: String): AuthServerUser?
+    fun findById(authServerId: String): AuthServerUser?
+
+    /**
+     * Finds authorization server user model by a given email.
+     */
+    fun findByEmail(email: String): AuthServerUser?
 
     /**
      * Check is account with a given id registered in auth server or not.

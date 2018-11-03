@@ -39,13 +39,16 @@ class BasicUserService @Autowired constructor(val userRepository: UserRepository
         return userRepository.save(user)
     }
 
-    override infix fun getById(id: String): User = userRepository.findById(id).orElseThrow { EntityNotFoundException("Cannot find user by id: $id") }
-
     override fun me(): User {
         val authenticationUser = SecurityContextHolder.getContext().authentication.principal as org.springframework.security.core.userdetails.User
         return userRepository.findByEmail(authenticationUser.username)
                 ?: throw EntityNotFoundException("Cannot establish current authenticated user")
     }
+
+    override infix fun getById(id: String): User = userRepository.findById(id).orElseThrow { EntityNotFoundException("Cannot find user by id: $id") }
+
+    override infix fun getByEmail(email: String): User = userRepository.findByEmail(email)
+            ?: throw EntityNotFoundException("Cannot find user by email: $email")
 
     override infix fun findByEmail(email: String): User? = userRepository.findByEmail(email)
 

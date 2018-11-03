@@ -2,7 +2,9 @@ package com.github.akraskovski.fes.core.domain.service.user
 
 import com.github.akraskovski.fes.core.domain.model.CombinedUserDetails
 import com.github.akraskovski.fes.core.domain.model.User
+import com.github.akraskovski.fes.core.domain.model.UserContacts
 import com.github.akraskovski.fes.core.domain.model.UserInvite
+import com.github.akraskovski.fes.core.domain.model.common.Gender
 import com.github.akraskovski.fes.core.domain.repository.company.CompanyRepository
 import com.github.akraskovski.fes.core.domain.repository.company.UserInviteRepository
 import com.github.akraskovski.fes.core.domain.repository.security.AuthorizationRepository
@@ -14,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+
+const val UNKNOWN_VALUE: String = "UNKNOWN"
 
 /**
  * Basic implementation of the UserService.
@@ -29,10 +33,9 @@ class BasicUserService @Autowired constructor(
     override fun me(): CombinedUserDetails {
         val currentUserEmail: String = SecurityContextHolder.getContext().authentication.principal as? String
             ?: throw IllegalArgumentException("Couldn't determine current logged In user principal")
-        val domainUser = (userRepository.findByContactsEmail(currentUserEmail)
-            ?: throw EntityNotFoundException("Cannot find user with email $currentUserEmail"))
-        val authServerUser = (authorizationRepository.getById(domainUser.authProfileId)
-            ?: throw EntityNotFoundException("Couldn't find user with id ${domainUser.authProfileId} in authorization server"))
+        val domainUser = userRepository.findByContactsEmail(currentUserEmail) ?: createDetails(currentUserEmail)
+        val authServerUser = authorizationRepository.findById(domainUser.authProfileId)
+            ?: handleUserNotFound(domainUser.authProfileId)
 
         return CombinedUserDetails.create(domainUser, authServerUser)
     }
@@ -47,6 +50,14 @@ class BasicUserService @Autowired constructor(
 
     override fun findByEmail(email: String): User = userRepository.findByContactsEmail(email)
         ?: handleUserNotFound(email)
+
+    private fun createDetails(email: String): User {
+        val authServerUser = authorizationRepository.findByEmail(email) ?: handleUserNotFound(email)
+        val userContacts = UserContacts(email)
+        val user = User(authServerUser.id, UNKNOWN_VALUE, UNKNOWN_VALUE, Gender.UNKNOWN, userContacts)
+
+        return save(user)
+    }
 
     private fun handleUserNotFound(arg: String): Nothing = throw EntityNotFoundException("Couldn't find user: $arg")
 
