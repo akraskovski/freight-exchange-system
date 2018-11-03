@@ -8,4 +8,4 @@ import org.springframework.stereotype.Repository
  * Route data access layer.
  */
 @Repository
-interface RouteRepository: JpaRepository<Route, String>
+interface RouteRepository : JpaRepository<Route, String>
