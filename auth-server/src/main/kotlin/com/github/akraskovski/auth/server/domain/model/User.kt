@@ -1,4 +1,4 @@
-package com.github.akraskovski.auth.server.domain.model;
+package com.github.akraskovski.auth.server.domain.model
 
 import org.hibernate.annotations.GenericGenerator
 import javax.persistence.Column

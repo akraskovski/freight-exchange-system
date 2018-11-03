@@ -1,5 +1,6 @@
 package com.github.akraskovski.fes.core.domain.service.user
 
+import com.github.akraskovski.fes.core.domain.model.CombinedUserDetails
 import com.github.akraskovski.fes.core.domain.model.User
 import com.github.akraskovski.fes.core.domain.service.CommonService
 
@@ -7,6 +8,11 @@ import com.github.akraskovski.fes.core.domain.service.CommonService
  * General User Service interface.
  */
 interface UserService : CommonService<User, String> {
+
+    /**
+     * Loads current user details with an additional data from auth server.
+     */
+    fun me(): CombinedUserDetails
 
     /**
      * Registers an new user account linked to the auth user profile.

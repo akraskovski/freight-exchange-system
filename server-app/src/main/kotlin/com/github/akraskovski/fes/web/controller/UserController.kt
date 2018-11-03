@@ -2,11 +2,18 @@ package com.github.akraskovski.fes.web.controller
 
 import com.github.akraskovski.fes.core.domain.service.user.UserService
 import com.github.akraskovski.fes.web.dto.IdDto
+import com.github.akraskovski.fes.web.dto.ResponseUserDetails
 import com.github.akraskovski.fes.web.dto.SignUpUser
+import com.github.akraskovski.fes.web.mapping.toDTO
 import com.github.akraskovski.fes.web.mapping.toUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 /**
@@ -22,4 +29,10 @@ class UserController @Autowired constructor(private val userService: UserService
     @PostMapping("/account/register")
     fun registerAccount(@RequestBody @Valid signUpUser: SignUpUser, @RequestParam token: String?): ResponseEntity<IdDto> =
         ResponseEntity.ok(IdDto(userService.registerAccount(signUpUser.toUser(), token).id!!))
+
+    /**
+     * Getting details about the current logged In user
+     */
+    @GetMapping("/me")
+    fun me(): ResponseEntity<ResponseUserDetails> = ResponseEntity.ok(userService.me().toDTO())
 }

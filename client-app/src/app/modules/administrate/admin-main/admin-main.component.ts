@@ -1,15 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AuthenticationService} from '../../services/authentication.service';
-import {Router} from '@angular/router';
-import {User} from '../../models/user';
+import {User} from '../../../models/user';
 import {Subscription} from 'rxjs';
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../../../services/authentication.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  selector: 'app-admin-main',
+  templateUrl: './admin-main.component.html',
+  styleUrls: ['./admin-main.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class AdminMainComponent implements OnInit, OnDestroy {
   currentUser: User;
   currentUserSubscription: Subscription;
 
@@ -23,11 +23,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.currentUserSubscription.unsubscribe();
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
   }
 
 }

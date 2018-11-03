@@ -21,6 +21,11 @@ interface UserService {
     infix fun activateAccount(userId: String): User
 
     /**
+     * Return current loggenIn user or throw exception if there is no authentication.
+     */
+    fun me(): User
+
+    /**
      * Find by id user.
      *
      * @param id the id
@@ -29,12 +34,15 @@ interface UserService {
     infix fun getById(id: String): User
 
     /**
-     * Return current loggenIn user or throw exception if there is no authentication.
+     * Find by email user or throws exception if there is no user with a given email
+     *
+     * @param email the email
+     * @return the user
      */
-    fun me(): User
+    infix fun getByEmail(email: String): User
 
     /**
-     * Find by email user.
+     * Find by email user. Returns null if user doesn't exist
      *
      * @param email the email
      * @return the user

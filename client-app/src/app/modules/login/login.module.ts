@@ -12,7 +12,7 @@ import {UserRegisterComponent} from './components/user-register/user-register.co
     ReactiveFormsModule,
     FormsModule
   ],
-  declarations: [LoginComponent, UserRegisterComponent],
+  declarations: [LoginComponent, UserRegisterComponent]
 })
 export class LoginModule {
 }

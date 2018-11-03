@@ -9,10 +9,10 @@ import javax.persistence.Entity
 @Entity
 class UserContacts(
     val email: String,
-    val phone: String,
-    val skype: String?,
-    val facebook: String?,
-    val linkedIn: String?,
-    val telegram: Boolean?,
-    val whatsUp: Boolean?
+    val phone: String? = null,
+    val skype: String? = null,
+    val facebook: String? = null,
+    val linkedIn: String? = null,
+    val telegram: Boolean? = null,
+    val whatsUp: Boolean? = null
 ) : AbstractEntity()
