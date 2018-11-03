@@ -1,10 +1,9 @@
-import {Authority} from './authority.enum';
 import {Gender} from "./gender.enum";
 
 export class User {
   id: string;
   email: string;
-  authority: Authority;
+  authority;
   active: boolean;
   token: string;
   refreshToken: string;

@@ -23,14 +23,14 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    return AuthGuard.containsAuthority(grantedAuthorities, this.authenticationService.currentUserValue.authority);
+    return AuthGuard.containsAuthority(grantedAuthorities, Authority[this.authenticationService.currentUserValue.authority]);
   }
 
   private static convertAuthorities(authoritiesNumbers: number[]) {
     return authoritiesNumbers == undefined ? [] : authoritiesNumbers.map(value => Authority[value])
   }
 
-  private static containsAuthority(grantedAuthorities, userAuthority: Authority): boolean {
+  private static containsAuthority(grantedAuthorities, userAuthority: string): boolean {
     let index = grantedAuthorities.length;
     while (index--) {
       if (grantedAuthorities[index] === userAuthority)
