@@ -22,7 +22,7 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
   submitted: boolean = false;
   genders: string[] = Object.keys(Gender).filter(k => typeof Gender[k as any] === 'number');
   authoritySubscription: Subscription;
-  authority: Authority;
+  authority: string;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -61,14 +61,15 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.submitted = true;
-
     if (this.registerForm.invalid) {
       return;
     }
 
-    const user: SignUpUser = this.registerForm.value;
-    user.authority = this.authority;
     this.loading = true;
+
+    const user: SignUpUser = this.registerForm.value;
+    user.authority = Authority[this.authority];
+
     this.userService.register(user)
       .pipe(first())
       .subscribe(

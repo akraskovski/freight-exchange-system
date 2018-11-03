@@ -1,7 +1,9 @@
 package com.github.akraskovski.fes.web.mapping
 
+import com.github.akraskovski.fes.core.domain.model.CombinedUserDetails
 import com.github.akraskovski.fes.core.domain.model.User
 import com.github.akraskovski.fes.core.domain.model.UserContacts
+import com.github.akraskovski.fes.web.dto.ResponseUserDetails
 import com.github.akraskovski.fes.web.dto.SignUpUser
 
 /**
@@ -12,3 +14,9 @@ fun SignUpUser.toUser(): User {
 
     return User(authProfileId, firstName, lastName, gender, userContacts)
 }
+
+/**
+ * Mapping from the domain combined user details to the response dto.
+ */
+fun CombinedUserDetails.toDTO(): ResponseUserDetails =
+    ResponseUserDetails(id, authProfileId, firstName, lastName, gender, email, active, authority, phone, skype, facebook, linkedIn, telegram, whatsUp)

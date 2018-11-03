@@ -47,6 +47,7 @@ class UserController @Autowired constructor(val userService: UserService) {
     /**
      * Loading user details by a given id.
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/{userId}")
     fun getDetails(@PathVariable userId: String): ResponseEntity<UserDetails> = ResponseEntity.ok(userService.getById(userId).toUserDetails())
 
