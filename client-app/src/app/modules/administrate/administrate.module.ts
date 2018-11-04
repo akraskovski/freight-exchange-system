@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AdminMainComponent} from './admin-main/admin-main.component';
+import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component';
 import {AdministrateRoutingModule} from './administrate-routing.module';
-import { UsersManagementComponent } from './users-management/users-management.component';
+import { UserManagementComponent } from './user-management/user-management.component';
 import { AdministrateComponent } from './administrate.component';
 
 @NgModule({
@@ -10,7 +10,7 @@ import { AdministrateComponent } from './administrate.component';
     CommonModule,
     AdministrateRoutingModule
   ],
-  declarations: [AdminMainComponent, UsersManagementComponent, AdministrateComponent]
+  declarations: [AdminDashboardComponent, UserManagementComponent, AdministrateComponent]
 })
 export class AdministrateModule {
 }

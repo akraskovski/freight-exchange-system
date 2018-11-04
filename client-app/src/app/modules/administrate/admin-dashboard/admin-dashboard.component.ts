@@ -6,10 +6,10 @@ import {AuthenticationService} from '../../../services/authentication.service';
 
 @Component({
   selector: 'app-admin-main',
-  templateUrl: './admin-main.component.html',
-  styleUrls: ['./admin-main.component.css']
+  templateUrl: './admin-dashboard.component.html',
+  styleUrls: ['./admin-dashboard.component.css']
 })
-export class AdminMainComponent implements OnInit, OnDestroy {
+export class AdminDashboardComponent implements OnInit, OnDestroy {
   currentUser: User;
   currentUserSubscription: Subscription;
 

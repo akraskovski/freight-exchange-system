@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AdminMainComponent} from './admin-main/admin-main.component';
+import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component';
 import {AuthGuard} from '../../guards/auth.guard';
 import {Authority} from '../../models/authority.enum';
 import {AdministrateComponent} from './administrate.component';
-import {UsersManagementComponent} from './users-management/users-management.component';
+import {UserManagementComponent} from './user-management/user-management.component';
 
 const routes: Routes = [
   {
@@ -18,15 +18,15 @@ const routes: Routes = [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {
         path: 'dashboard',
-        component: AdminMainComponent,
+        component: AdminDashboardComponent,
         canActivate: [AuthGuard],
         data: {
           authorities: [Authority.ROLE_ADMIN]
         }
       },
       {
-        path: 'users-management',
-        component: UsersManagementComponent,
+        path: 'user-management',
+        component: UserManagementComponent,
         canActivate: [AuthGuard],
         data: {
           authorities: [Authority.ROLE_ADMIN]
