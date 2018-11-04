@@ -3,6 +3,8 @@ package com.github.akraskovski.fes.core.domain.service.user
 import com.github.akraskovski.fes.core.domain.model.CombinedUserDetails
 import com.github.akraskovski.fes.core.domain.model.User
 import com.github.akraskovski.fes.core.domain.service.CommonService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 
 /**
  * General User Service interface.
@@ -24,6 +26,11 @@ interface UserService : CommonService<User, String> {
      * Find user by a given email or throws exception if user was not found.
      */
     fun findByEmail(email: String): User
+
+    /**
+     * Search users by a given pattern.
+     */
+    fun search(searchString: String, pageable: Pageable): Page<User>
 
     /**
      * Collects and returns total count of registered user accounts.

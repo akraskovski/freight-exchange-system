@@ -13,6 +13,7 @@ import com.github.akraskovski.fes.core.domain.service.BasicOperationService
 import com.github.akraskovski.fes.core.domain.service.CommonService
 import com.github.akraskovski.fes.core.domain.service.exception.EntityNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Pageable
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -29,7 +30,6 @@ class BasicUserService @Autowired constructor(
     private val companyRepository: CompanyRepository,
     private val authorizationRepository: AuthorizationRepository
 ) : CommonService<User, String> by BasicOperationService(userRepository), UserService {
-
     override fun registerAccount(user: User, token: String?): User {
         if (!authorizationRepository.isAccountRegistered(user.authProfileId)) {
             throw EntityNotFoundException("Registering account doesn't exist in authorization server")
@@ -50,6 +50,8 @@ class BasicUserService @Autowired constructor(
 
     override fun findByEmail(email: String): User = userRepository.findByContactsEmail(email)
         ?: handleUserNotFound(email)
+
+    override fun search(searchString: String, pageable: Pageable) = userRepository.fullTextSearch(searchString, pageable)
 
     override fun totalCount(): Int = userRepository.count().toInt()
 

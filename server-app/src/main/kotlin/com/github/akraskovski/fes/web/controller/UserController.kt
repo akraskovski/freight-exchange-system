@@ -1,11 +1,15 @@
 package com.github.akraskovski.fes.web.controller
 
+import com.github.akraskovski.fes.core.domain.model.User
 import com.github.akraskovski.fes.core.domain.service.user.UserService
 import com.github.akraskovski.fes.web.dto.IdDto
 import com.github.akraskovski.fes.web.dto.ItemCountResponse
+import com.github.akraskovski.fes.web.dto.search.SearchRequest
+import com.github.akraskovski.fes.web.dto.search.SearchResponse
 import com.github.akraskovski.fes.web.dto.user.ResponseUserDetails
 import com.github.akraskovski.fes.web.dto.user.SignUpUser
 import com.github.akraskovski.fes.web.mapping.toDTO
+import com.github.akraskovski.fes.web.mapping.toSearchResponse
 import com.github.akraskovski.fes.web.mapping.toUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -37,6 +41,13 @@ class UserController @Autowired constructor(private val userService: UserService
      */
     @GetMapping("/me")
     fun me(): ResponseEntity<ResponseUserDetails> = ResponseEntity.ok(userService.me().toDTO())
+
+    @PostMapping("/search")
+    fun search(@RequestBody @Valid searchRequest: SearchRequest): ResponseEntity<SearchResponse<User>> {
+        val searchResult = userService.search(searchRequest.text, searchRequest.toPageable())
+
+        return ResponseEntity.ok(searchResult.toSearchResponse())
+    }
 
     /**
      * Gets total count of the registered accounts.
