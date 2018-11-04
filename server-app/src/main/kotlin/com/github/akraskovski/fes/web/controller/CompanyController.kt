@@ -2,8 +2,8 @@ package com.github.akraskovski.fes.web.controller
 
 import com.github.akraskovski.fes.core.domain.service.company.CompanyService
 import com.github.akraskovski.fes.web.dto.IdDto
-import com.github.akraskovski.fes.web.dto.RegisterCompany
-import com.github.akraskovski.fes.web.dto.UserInvite2Company
+import com.github.akraskovski.fes.web.dto.company.RegisterCompany
+import com.github.akraskovski.fes.web.dto.user.UserInvite2Company
 import com.github.akraskovski.fes.web.mapping.toCompany
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity

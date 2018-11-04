@@ -1,4 +1,4 @@
-package com.github.akraskovski.fes.web.dto
+package com.github.akraskovski.fes.web.dto.company
 
 import javax.validation.constraints.NotBlank
 

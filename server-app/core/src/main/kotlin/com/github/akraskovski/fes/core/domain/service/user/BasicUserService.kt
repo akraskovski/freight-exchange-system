@@ -30,6 +30,14 @@ class BasicUserService @Autowired constructor(
     private val authorizationRepository: AuthorizationRepository
 ) : CommonService<User, String> by BasicOperationService(userRepository), UserService {
 
+    override fun registerAccount(user: User, token: String?): User {
+        if (!authorizationRepository.isAccountRegistered(user.authProfileId)) {
+            throw EntityNotFoundException("Registering account doesn't exist in authorization server")
+        }
+
+        return token?.let { applyInviteValues(user, it) } ?: save(user)
+    }
+
     override fun me(): CombinedUserDetails {
         val currentUserEmail: String = SecurityContextHolder.getContext().authentication.principal as? String
             ?: throw IllegalArgumentException("Couldn't determine current logged In user principal")
@@ -40,16 +48,10 @@ class BasicUserService @Autowired constructor(
         return CombinedUserDetails.create(domainUser, authServerUser)
     }
 
-    override fun registerAccount(user: User, token: String?): User {
-        if (!authorizationRepository.isAccountRegistered(user.authProfileId)) {
-            throw EntityNotFoundException("Registering account doesn't exist in authorization server")
-        }
-
-        return token?.let { applyInviteValues(user, it) } ?: save(user)
-    }
-
     override fun findByEmail(email: String): User = userRepository.findByContactsEmail(email)
         ?: handleUserNotFound(email)
+
+    override fun totalCount(): Int = userRepository.count().toInt()
 
     private fun createDetails(email: String): User {
         val authServerUser = authorizationRepository.findByEmail(email) ?: handleUserNotFound(email)

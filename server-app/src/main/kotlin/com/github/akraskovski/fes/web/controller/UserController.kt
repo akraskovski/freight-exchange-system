@@ -2,12 +2,14 @@ package com.github.akraskovski.fes.web.controller
 
 import com.github.akraskovski.fes.core.domain.service.user.UserService
 import com.github.akraskovski.fes.web.dto.IdDto
-import com.github.akraskovski.fes.web.dto.ResponseUserDetails
-import com.github.akraskovski.fes.web.dto.SignUpUser
+import com.github.akraskovski.fes.web.dto.ItemCountResponse
+import com.github.akraskovski.fes.web.dto.user.ResponseUserDetails
+import com.github.akraskovski.fes.web.dto.user.SignUpUser
 import com.github.akraskovski.fes.web.mapping.toDTO
 import com.github.akraskovski.fes.web.mapping.toUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -35,4 +37,11 @@ class UserController @Autowired constructor(private val userService: UserService
      */
     @GetMapping("/me")
     fun me(): ResponseEntity<ResponseUserDetails> = ResponseEntity.ok(userService.me().toDTO())
+
+    /**
+     * Gets total count of the registered accounts.
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/count")
+    fun getTotalCount() = ResponseEntity.ok(ItemCountResponse(userService.totalCount()))
 }

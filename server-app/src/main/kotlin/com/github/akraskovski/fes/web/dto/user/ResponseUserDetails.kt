@@ -1,4 +1,4 @@
-package com.github.akraskovski.fes.web.dto
+package com.github.akraskovski.fes.web.dto.user
 
 import com.github.akraskovski.fes.core.domain.model.Authority
 import com.github.akraskovski.fes.core.domain.model.common.Gender

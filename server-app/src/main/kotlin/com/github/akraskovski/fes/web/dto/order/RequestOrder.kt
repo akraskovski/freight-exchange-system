@@ -1,4 +1,4 @@
-package com.github.akraskovski.fes.web.dto
+package com.github.akraskovski.fes.web.dto.order
 
 import java.time.LocalDateTime
 import javax.validation.constraints.Future
