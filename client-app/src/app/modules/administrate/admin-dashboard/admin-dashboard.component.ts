@@ -29,5 +29,4 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.currentUserSubscription.unsubscribe();
     this.totalUsersCountSubscription.unsubscribe();
   }
-
 }
