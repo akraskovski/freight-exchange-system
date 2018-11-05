@@ -29,11 +29,11 @@ import {AdministrateModule} from './modules/administrate/administrate.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FontAwesomeModule,
     HttpClientModule,
     LoginModule,
-    AdministrateModule
+    AdministrateModule,
+    AppRoutingModule
   ],
   providers: [
     AuthGuard,

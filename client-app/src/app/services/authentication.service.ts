@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 import {User} from '../models/user';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {SERVER_API} from "../variables/server-api";
+import {Authority} from "../models/authority.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,7 @@ export class AuthenticationService {
         this.loadDetails(token).subscribe((user: User) => {
           user.token = token;
           user.refreshToken = refreshToken;
+          user.authority = Authority[user.authority];
           localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(user));
           this.currentUserSubject.next(user);
         });

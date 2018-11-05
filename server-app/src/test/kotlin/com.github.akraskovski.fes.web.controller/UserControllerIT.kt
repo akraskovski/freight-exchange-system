@@ -5,7 +5,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.akraskovski.fes.core.domain.model.common.Gender
 import com.github.akraskovski.fes.web.controller.config.ControllerTestRunner
 import com.github.akraskovski.fes.web.dto.IdDto
-import com.github.akraskovski.fes.web.dto.SignUpUser
+import com.github.akraskovski.fes.web.dto.user.SignUpUser
 import org.hamcrest.Matchers.isEmptyOrNullString
 import org.hamcrest.Matchers.not
 import org.junit.Assert.assertThat

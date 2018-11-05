@@ -2,7 +2,7 @@ package com.github.akraskovski.fes.web.mapping
 
 import com.github.akraskovski.fes.core.domain.model.Order
 import com.github.akraskovski.fes.core.domain.model.Route
-import com.github.akraskovski.fes.web.dto.RequestOrder
+import com.github.akraskovski.fes.web.dto.order.RequestOrder
 
 /**
  * Mapping from the request create order to the domain model.

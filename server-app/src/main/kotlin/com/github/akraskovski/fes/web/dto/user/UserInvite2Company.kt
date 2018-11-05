@@ -1,4 +1,4 @@
-package com.github.akraskovski.fes.web.dto
+package com.github.akraskovski.fes.web.dto.user
 
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank

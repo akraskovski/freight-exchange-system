@@ -3,8 +3,8 @@ package com.github.akraskovski.fes.web.mapping
 import com.github.akraskovski.fes.core.domain.model.CombinedUserDetails
 import com.github.akraskovski.fes.core.domain.model.User
 import com.github.akraskovski.fes.core.domain.model.UserContacts
-import com.github.akraskovski.fes.web.dto.ResponseUserDetails
-import com.github.akraskovski.fes.web.dto.SignUpUser
+import com.github.akraskovski.fes.web.dto.user.ResponseUserDetails
+import com.github.akraskovski.fes.web.dto.user.SignUpUser
 
 /**
  * Mapping from the SignUpUser dto to the domain user model.

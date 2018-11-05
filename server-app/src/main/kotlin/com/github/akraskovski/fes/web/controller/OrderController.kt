@@ -2,7 +2,7 @@ package com.github.akraskovski.fes.web.controller
 
 import com.github.akraskovski.fes.core.domain.service.order.OrderService
 import com.github.akraskovski.fes.web.dto.IdDto
-import com.github.akraskovski.fes.web.dto.RequestOrder
+import com.github.akraskovski.fes.web.dto.order.RequestOrder
 import com.github.akraskovski.fes.web.mapping.toOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
