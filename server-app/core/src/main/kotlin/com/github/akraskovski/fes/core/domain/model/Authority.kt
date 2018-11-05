@@ -1,4 +1,4 @@
-package com.github.akraskovski.fes.core.domain.model;
+package com.github.akraskovski.fes.core.domain.model
 
 /**
  * Application authorities, which can be applied to a {@link User}.

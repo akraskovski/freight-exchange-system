@@ -37,11 +37,14 @@ class UserController @Autowired constructor(private val userService: UserService
         ResponseEntity.ok(IdDto(userService.registerAccount(signUpUser.toUser(), token).id!!))
 
     /**
-     * Getting details about the current logged In user
+     * Getting details about the current logged In user.
      */
     @GetMapping("/me")
     fun me(): ResponseEntity<ResponseUserDetails> = ResponseEntity.ok(userService.me().toDTO())
 
+    /**
+     * Searching users details by a given search criteria.
+     */
     @PostMapping("/search")
     fun search(@RequestBody @Valid searchRequest: SearchRequest): ResponseEntity<SearchResponse<User>> {
         val searchResult = userService.search(searchRequest.text, searchRequest.toPageable())

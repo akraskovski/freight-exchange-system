@@ -51,7 +51,7 @@ class BasicUserService @Autowired constructor(
     override fun findByEmail(email: String): User = userRepository.findByContactsEmail(email)
         ?: handleUserNotFound(email)
 
-    override fun search(searchString: String, pageable: Pageable) = userRepository.fullTextSearch(searchString, pageable)
+    override fun search(searchString: String, pageable: Pageable) = userRepository.search(searchString, pageable)
 
     override fun totalCount(): Int = userRepository.count().toInt()
 

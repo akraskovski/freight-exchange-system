@@ -20,12 +20,11 @@ interface UserRepository : JpaRepository<User, String> {
     fun findByContactsEmail(email: String): User?
 
     /**
-     * Users search implementation by all necessary fields.
+     * Users search implementation by the firstName or lastName or email fields.
      */
-    @Query(value = "SELECT u " +
-        "FROM user_details u " +
+    @Query(value = "SELECT u FROM user_details u " +
         "WHERE UPPER(u.firstName) LIKE CONCAT('%',UPPER(:text),'%')" +
         "OR UPPER(u.lastName) LIKE CONCAT('%',UPPER(:text),'%')" +
         "OR UPPER(u.contacts.email) LIKE CONCAT('%',UPPER(:text),'%')")
-    fun fullTextSearch(@Param("text") searchString: String, pageable: Pageable): Page<User>
+    fun search(@Param("text") searchString: String, pageable: Pageable): Page<User>
 }
