@@ -13,6 +13,7 @@ import com.github.akraskovski.fes.core.domain.service.BasicOperationService
 import com.github.akraskovski.fes.core.domain.service.CommonService
 import com.github.akraskovski.fes.core.domain.service.exception.EntityNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -30,11 +31,12 @@ class BasicUserService @Autowired constructor(
     private val companyRepository: CompanyRepository,
     private val authorizationRepository: AuthorizationRepository
 ) : CommonService<User, String> by BasicOperationService(userRepository), UserService {
-    override fun registerAccount(user: User, token: String?): User {
-        if (!authorizationRepository.isAccountRegistered(user.authProfileId)) {
-            throw EntityNotFoundException("Registering account doesn't exist in authorization server")
-        }
 
+    override fun registerAccount(user: User, token: String?): User {
+        val authServerUser = authorizationRepository.findById(user.authProfileId)
+            ?: throw EntityNotFoundException("Registering account doesn't exist in authorization server")
+
+        user.authority = authServerUser.authority
         return token?.let { applyInviteValues(user, it) } ?: save(user)
     }
 
@@ -51,14 +53,15 @@ class BasicUserService @Autowired constructor(
     override fun findByEmail(email: String): User = userRepository.findByContactsEmail(email)
         ?: handleUserNotFound(email)
 
-    override fun search(searchString: String, pageable: Pageable) = userRepository.search(searchString, pageable)
+    override fun search(searchString: String?, pageable: Pageable): Page<User> =
+        searchString?.let { userRepository.search(it, pageable) } ?: userRepository.findAll(pageable)
 
     override fun totalCount(): Int = userRepository.count().toInt()
 
     private fun createDetails(email: String): User {
         val authServerUser = authorizationRepository.findByEmail(email) ?: handleUserNotFound(email)
         val userContacts = UserContacts(email)
-        val user = User(authServerUser.id, UNKNOWN_VALUE, UNKNOWN_VALUE, Gender.UNKNOWN, userContacts)
+        val user = User(authServerUser.id, UNKNOWN_VALUE, UNKNOWN_VALUE, authServerUser.authority, Gender.UNKNOWN, userContacts)
 
         return save(user)
     }

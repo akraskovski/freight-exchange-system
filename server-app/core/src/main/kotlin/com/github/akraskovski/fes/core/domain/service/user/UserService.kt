@@ -30,7 +30,7 @@ interface UserService : CommonService<User, String> {
     /**
      * Search users by a given pattern.
      */
-    fun search(searchString: String, pageable: Pageable): Page<User>
+    fun search(searchString: String?, pageable: Pageable): Page<User>
 
     /**
      * Collects and returns total count of registered user accounts.

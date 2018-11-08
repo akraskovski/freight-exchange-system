@@ -20,7 +20,7 @@
       </header>
       <div class="card-table">
         <div class="content">
-          <table class="table is-fullwidth is-striped">
+          <table class="table is-fullwidth is-striped" *ngIf="searchResponse">
             <thead>
             <tr>
               <th>Active</th>
@@ -31,11 +31,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr *ngFor="let user of searchResponse.content">
               <td width="5%"><i class="fa fa-bell-o"></i></td>
-              <td>John Doe</td>
-              <td>john@doe.com</td>
-              <td>CLIENT</td>
+              <td>{{user.firstName}} {{user.lastName}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.authority | lowercase}}</td>
               <td><a class="button is-small is-primary" href="#">Action</a></td>
             </tr>
             </tbody>

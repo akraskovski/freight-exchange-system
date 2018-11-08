@@ -3,5 +3,6 @@ export const SERVER_API = {
   API_URL: '/api/v1',
   REGISTER_ACCOUNT_URL: '/user/account/register',
   ME_URL: '/user/me',
-  USER_TOTAL_COUNT: '/user/count'
+  USER_TOTAL_COUNT: '/user/count',
+  USER_SEARCH: '/user/search'
 };

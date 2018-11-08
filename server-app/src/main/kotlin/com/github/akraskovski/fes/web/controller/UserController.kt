@@ -1,6 +1,5 @@
 package com.github.akraskovski.fes.web.controller
 
-import com.github.akraskovski.fes.core.domain.model.User
 import com.github.akraskovski.fes.core.domain.service.user.UserService
 import com.github.akraskovski.fes.web.dto.IdDto
 import com.github.akraskovski.fes.web.dto.ItemCountResponse
@@ -9,6 +8,7 @@ import com.github.akraskovski.fes.web.dto.search.SearchResponse
 import com.github.akraskovski.fes.web.dto.user.ResponseUserDetails
 import com.github.akraskovski.fes.web.dto.user.SignUpUser
 import com.github.akraskovski.fes.web.mapping.toDTO
+import com.github.akraskovski.fes.web.mapping.toDto
 import com.github.akraskovski.fes.web.mapping.toSearchResponse
 import com.github.akraskovski.fes.web.mapping.toUser
 import org.springframework.beans.factory.annotation.Autowired
@@ -46,10 +46,11 @@ class UserController @Autowired constructor(private val userService: UserService
      * Searching users details by a given search criteria.
      */
     @PostMapping("/search")
-    fun search(@RequestBody @Valid searchRequest: SearchRequest): ResponseEntity<SearchResponse<User>> {
-        val searchResult = userService.search(searchRequest.text, searchRequest.toPageable())
+    fun search(@RequestBody @Valid searchRequest: SearchRequest): ResponseEntity<SearchResponse<ResponseUserDetails>> {
+        val searchResult: SearchResponse<ResponseUserDetails> = userService.search(searchRequest.text, searchRequest.toPageable())
+            .toSearchResponse { searchContent -> searchContent.map { it.toDto() } }
 
-        return ResponseEntity.ok(searchResult.toSearchResponse())
+        return ResponseEntity.ok(searchResult)
     }
 
     /**
