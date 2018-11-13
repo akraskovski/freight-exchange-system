@@ -16,6 +16,7 @@ class User(
     val authProfileId: String,
     val firstName: String,
     val lastName: String,
-    @Enumerated(value = EnumType.STRING) val gender: Gender,
+    @Enumerated(EnumType.STRING) var authority: Authority? = null,
+    @Enumerated(EnumType.STRING) val gender: Gender,
     @OneToOne(cascade = [CascadeType.PERSIST, CascadeType.REMOVE]) val contacts: UserContacts
 ) : AbstractEntity()

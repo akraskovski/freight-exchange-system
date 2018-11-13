@@ -36,14 +36,6 @@ class BaseAuthorizationRepository @Autowired constructor(
         }
     }
 
-    override fun isAccountRegistered(userId: String): Boolean {
-        try {
-            return getUserById(userId).let { it.statusCode == HttpStatus.OK && it.body?.id == userId }
-        } catch (e: RestClientException) {
-            throw RepositoryException("Couldn't execute fetching auth server user request", e)
-        }
-    }
-
     override fun activateAccount(userId: String) {
         val requestUrl = "${authProperties.connection!!.url}/user/$userId/activate"
 

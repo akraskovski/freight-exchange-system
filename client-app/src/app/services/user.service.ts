@@ -8,6 +8,8 @@ import {IdDto} from '../models/dto/id-dto';
 import {SERVER_API} from '../variables/server-api';
 import {TotalCountResponse} from '../models/dto/total-count-response';
 import {AuthenticationService} from './authentication.service';
+import {SearchResponse} from '../models/dto/search-response';
+import {SearchRequest} from '../models/dto/search-request';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +38,21 @@ export class UserService {
     const headers = {headers: new HttpHeaders({'Authorization': `Bearer ${token}`})};
 
     return this.http.get<any>(url, headers);
+  }
+
+  public search(page: number, size: number, text: string): Observable<SearchResponse<any>> {
+    const url = SERVER_API.SERVER + SERVER_API.API_URL + SERVER_API.USER_SEARCH;
+    const token = this.authenticationService.currentUserValue.token;
+    const headers = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+
+    const searchRequestBody = new SearchRequest(page, size, text);
+
+    return this.http.post<any>(url, searchRequestBody, headers);
   }
 
   private registerInOAuth(user: SignUpUser): Observable<IdDto> {
