@@ -17,6 +17,7 @@ import {AlertComponent} from './components/alert/alert.component';
 import {AlertService} from './services/alert.service';
 import {HttpUnauthorizedInterceptor} from './interceptors/http-unauthorized.interceptor';
 import {AdministrateModule} from './modules/administrate/administrate.module';
+import {PagerService} from './services/pager.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {AdministrateModule} from './modules/administrate/administrate.module';
     AuthGuard,
     AuthenticationService,
     UserService,
+    PagerService,
     AlertService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpUnauthorizedInterceptor, multi: true}
   ],

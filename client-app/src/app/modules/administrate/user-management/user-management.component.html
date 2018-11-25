@@ -14,8 +14,8 @@
   <div>
     <div class="card events-card">
       <header class="card-header">
-        <p class="card-header-title">
-          Events
+        <p class="card-header-title" *ngIf="searchResponse">
+          Total count of the registered user accounts: {{searchResponse.totalElements}}
         </p>
       </header>
       <div class="card-table">
@@ -34,7 +34,7 @@
             <tr *ngFor="let user of searchResponse.content">
               <td width="5%"><i class="fa fa-bell-o"></i></td>
               <td>{{user.firstName}} {{user.lastName}}</td>
-              <td>{{user.email}}</td>
+              <td>{{user.email | lowercase}}</td>
               <td>{{user.authority | lowercase}}</td>
               <td><a class="button is-small is-primary" href="#">Action</a></td>
             </tr>
@@ -43,7 +43,34 @@
         </div>
       </div>
       <footer class="card-footer">
-        <a class="card-footer-item">View All</a>
+        <div class="card-footer-item" *ngIf="searchResponse">
+          <nav class="pagination" role="navigation">
+            <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+              <li>
+                <button class="pagination-link" (click)="setPage(1)" [disabled]="pager.currentPage === 1">First</button>
+              </li>
+              <li>
+                <button class="pagination-previous" (click)="setPage(pager.currentPage - 1)"
+                        [disabled]="pager.currentPage === 1">Previous
+                </button>
+              </li>
+              <li *ngFor="let page of pager.pages">
+                <a class="pagination-link" [ngClass]="{ 'is-current':  pager.currentPage === page}"
+                   (click)="setPage(page)">{{page}}</a>
+              </li>
+              <li>
+                <button class="pagination-next" (click)="setPage(pager.currentPage + 1)"
+                        [disabled]="pager.currentPage === pager.totalPages">Next
+                </button>
+              </li>
+              <li>
+                <button class="pagination-link" (click)="setPage(pager.totalPages)"
+                        [disabled]="pager.currentPage === pager.totalPages">Last
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </footer>
     </div>
   </div>
