@@ -11,7 +11,6 @@ import {PagerService} from '../../../services/pager.service';
 })
 export class UserManagementComponent implements OnInit {
   pager: any = {};
-  //TODO: add dynamic combo with possible size values
   pageSize: number = 10;
   searchResponse: SearchResponse<User>;
 
@@ -28,5 +27,10 @@ export class UserManagementComponent implements OnInit {
         this.searchResponse = response;
         this.pager = this.pagerService.getPager(response.totalElements, page, this.pageSize);
       });
+  }
+
+  setPageSize(pageSize: number) {
+    this.pageSize = pageSize;
+    this.setPage(1);
   }
 }

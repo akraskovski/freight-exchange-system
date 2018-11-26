@@ -17,6 +17,22 @@
         <p class="card-header-title" *ngIf="searchResponse">
           Total count of the registered user accounts: {{searchResponse.totalElements}}
         </p>
+        <div class="tabs is-toggle is-small" style="padding-right: 5px">
+          <ul>
+            <li [ngClass]="{ 'is-active':  pageSize == 5}">
+              <a (click)="setPageSize(5)"><span>5</span></a>
+            </li>
+            <li [ngClass]="{ 'is-active':  pageSize == 10}">
+              <a (click)="setPageSize(10)"><span>10</span></a>
+            </li>
+            <li [ngClass]="{ 'is-active':  pageSize == 25}">
+              <a (click)="setPageSize(25)"><span>25</span></a>
+            </li>
+            <li [ngClass]="{ 'is-active':  pageSize == 50}">
+              <a (click)="setPageSize(50)"><span>50</span></a>
+            </li>
+          </ul>
+        </div>
       </header>
       <div class="card-table">
         <div class="content">
