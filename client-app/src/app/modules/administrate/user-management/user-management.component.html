@@ -11,40 +11,106 @@
   </div>
 </section>
 <section class="section">
-  <div>
-    <div class="card events-card">
-      <header class="card-header">
-        <p class="card-header-title">
-          Events
-        </p>
-      </header>
-      <div class="card-table">
-        <div class="content">
-          <table class="table is-fullwidth is-striped" *ngIf="searchResponse">
-            <thead>
-            <tr>
-              <th>Active</th>
-              <th>Full Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let user of searchResponse.content">
-              <td width="5%"><i class="fa fa-bell-o"></i></td>
-              <td>{{user.firstName}} {{user.lastName}}</td>
-              <td>{{user.email}}</td>
-              <td>{{user.authority | lowercase}}</td>
-              <td><a class="button is-small is-primary" href="#">Action</a></td>
-            </tr>
-            </tbody>
-          </table>
+  <div class="card events-card">
+    <header class="card-header">
+      <p class="card-header-title" *ngIf="searchResponse">
+        Total count of the registered user accounts: {{searchResponse.totalElements}}
+      </p>
+      <nav class="level" style="margin-right: 0.5em">
+        <div class="level-right">
+          <div class="level-item">
+            <div class="field has-addons">
+              <p class="control">
+                <input class="input" type="text" placeholder="Pass First Name, Last Name or Email">
+              </p>
+              <p class="control">
+                <button class="button">
+                  Search
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="card-table">
+      <div class="content">
+        <table class="table is-fullwidth is-striped" *ngIf="searchResponse">
+          <thead>
+          <tr>
+            <th>Active</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of searchResponse.content">
+            <td width="5%"><i class="fa fa-bell-o"></i></td>
+            <td>{{user.firstName}} {{user.lastName}}</td>
+            <td>{{user.email | lowercase}}</td>
+            <td>{{user.authority | lowercase}}</td>
+            <td><a class="button is-small is-primary" href="#">Action</a></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="card-footer-item level">
+        <div class="level-left">
+          <div class="level-item" *ngIf="searchResponse">
+            <nav class="pagination" role="navigation">
+              <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                <li>
+                  <button class="pagination-link" (click)="setPage(1)" [disabled]="pager.currentPage === 1">First
+                  </button>
+                </li>
+                <li>
+                  <button class="pagination-previous" (click)="setPage(pager.currentPage - 1)"
+                          [disabled]="pager.currentPage === 1">Previous
+                  </button>
+                </li>
+                <li *ngFor="let page of pager.pages">
+                  <a class="pagination-link" [ngClass]="{ 'is-current':  pager.currentPage === page}"
+                     (click)="setPage(page)">{{page}}</a>
+                </li>
+                <li>
+                  <button class="pagination-next" (click)="setPage(pager.currentPage + 1)"
+                          [disabled]="pager.currentPage === pager.totalPages">Next
+                  </button>
+                </li>
+                <li>
+                  <button class="pagination-link" (click)="setPage(pager.totalPages)"
+                          [disabled]="pager.currentPage === pager.totalPages">Last
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <div class="tabs is-toggle is-small" style="padding-right: 0.125em">
+              <ul>
+                <li [ngClass]="{ 'is-active':  pageSize == 5}">
+                  <a (click)="setPageSize(5)"><span>5</span></a>
+                </li>
+                <li [ngClass]="{ 'is-active':  pageSize == 10}">
+                  <a (click)="setPageSize(10)"><span>10</span></a>
+                </li>
+                <li [ngClass]="{ 'is-active':  pageSize == 25}">
+                  <a (click)="setPageSize(25)"><span>25</span></a>
+                </li>
+                <li [ngClass]="{ 'is-active':  pageSize == 50}">
+                  <a (click)="setPageSize(50)"><span>50</span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-      <footer class="card-footer">
-        <a class="card-footer-item">View All</a>
-      </footer>
     </div>
   </div>
 </section>
