@@ -7,26 +7,18 @@ dependencies {
     implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springBootVersion}")
     implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
     testImplementation('org.springframework.security:spring-security-test')
-
-//    ktlint "com.github.shyiko:ktlint:0.29.0"
-}
-bootJar {
-    mainClassName = 'com.github.akraskovski.fes.FreightExchangeSystemApplication'
-}
-springBoot {
-    mainClassName = 'com.github.akraskovski.fes.FreightExchangeSystemApplication'
 }
 
-//task ktlint(type: JavaExec, group: "verification") {
-//    description = "Check Kotlin code style."
-//    classpath = configurations.ktlint
-//    main = "com.github.shyiko.ktlint.Main"
-//    args "src/**/*.kt"
-//}
-//check.dependsOn ktlint
-//
-//task ktlintFormat(type: JavaExec, group: "formatting") {
-//    classpath = configurations.ktlint
-//    main = "com.github.akraskovski.fes.FreightExchangeSystemApplication"
-//    args "-F", "src/**/*.kt"
-//}
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "src/**/*.kt"
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    classpath = configurations.ktlint
+    main = "com.github.akraskovski.fes.FreightExchangeSystemApplication"
+    args "-F", "src/**/*.kt"
+}
