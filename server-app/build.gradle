@@ -45,41 +45,18 @@ allprojects {
     }
 
     dependencies {
-        implementation('org.springframework.boot:spring-boot-starter-web')
-        implementation('org.springframework.boot:spring-boot-starter-security')
+        implementation('org.springframework.boot:spring-boot-starter')
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         testImplementation('org.springframework.boot:spring-boot-starter-test')
-
         ktlint "com.github.shyiko:ktlint:0.29.0"
     }
 }
 
+bootJar {
+    mainClassName = 'com.github.akraskovski.fes.FreightExchangeSystemApplication'
+}
+
 subprojects {
     sourceCompatibility = 1.8
-}
-
-sourceCompatibility = 1.8
-
-dependencies {
-    implementation project(':core')
-    implementation('org.springframework.boot:spring-boot-configuration-processor')
-    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-    implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springBootVersion}")
-    implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
-    testImplementation('org.springframework.security:spring-security-test')
-}
-
-task ktlint(type: JavaExec, group: "verification") {
-    description = "Check Kotlin code style."
-    classpath = configurations.ktlint
-    main = "com.github.shyiko.ktlint.Main"
-    args "src/**/*.kt"
-}
-check.dependsOn ktlint
-
-task ktlintFormat(type: JavaExec, group: "formatting") {
-    classpath = configurations.ktlint
-    main = "com.github.akraskovski.fes.FreightExchangeSystemApplication"
-    args "-F", "src/**/*.kt"
 }
